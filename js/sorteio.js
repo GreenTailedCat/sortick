@@ -97,6 +97,7 @@ function render() {
   renderResult();
   drawButton.disabled = getEligibleParticipants().length < getMinimumParticipants() || isDrawing;
   copyButton.disabled = !draw.result;
+  setControlsLocked(isDrawing);
   shareButton.disabled = !draw.result;
   downloadButton.disabled = !draw.result;
 }
