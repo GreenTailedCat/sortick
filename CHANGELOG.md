@@ -1,11 +1,8 @@
 # Changelog do Sortick
 
-## v1.4.1
-- Controles bloqueados durante o sorteio agora mostram cursor de não permitido.
-
-## v1.4
-- Bloqueia opções e controles durante o sorteio.
-- Impede alterar “Sortear apenas confirmados” e “Remover vencedor” durante contagem/giro.
+## v1.4.2
+- Revertida a base para a v1.3 estável.
+- Correção mínima: bloqueia apenas “Sortear apenas confirmados” e “Remover vencedor” durante o sorteio.
 
 ## v1.3
 - Preparação para deploy não divulgado

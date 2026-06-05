@@ -1319,27 +1319,16 @@ textarea {
   }
 }
 
-/* v1.4.1 - locked controls cursor */
+/* v1.4.2 - bloqueio mínimo das regras durante o sorteio */
 
-body.drawing-locked .draw-options,
-body.drawing-locked .participant-form,
-body.drawing-locked .participant-tools,
-body.drawing-locked .bulk-panel,
-body.drawing-locked .participant-list {
-  cursor: not-allowed;
-}
-
-body.drawing-locked .draw-options *,
-body.drawing-locked .participant-form *,
-body.drawing-locked .participant-tools *,
-body.drawing-locked .bulk-panel *,
-body.drawing-locked .participant-list * {
+body.drawing-locked .draw-options .inline-option:nth-of-type(1),
+body.drawing-locked .draw-options .inline-option:nth-of-type(2),
+body.drawing-locked #confirmedOnlyToggle,
+body.drawing-locked #removeWinnerToggle {
   cursor: not-allowed !important;
 }
 
-button:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled {
+body.drawing-locked #confirmedOnlyToggle:disabled,
+body.drawing-locked #removeWinnerToggle:disabled {
   cursor: not-allowed !important;
 }

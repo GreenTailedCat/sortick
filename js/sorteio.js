@@ -83,6 +83,12 @@ function setupDraw() {
 function getTotalNumbers() { return Sortick.clampNumber(draw.options.totalNumbers || 50, 2, 500); }
 function persist() { draw.updatedAt = new Date().toISOString(); Sortick.saveDraw(draw); }
 function setValidation(message = "") { validationMessage.textContent = message; }
+
+function setRuleOptionsLocked(locked) {
+  document.body.classList.toggle("drawing-locked", locked);
+  confirmedOnlyToggle.disabled = locked;
+  removeWinnerToggle.disabled = locked;
+}
 function getMinimumParticipants() { return draw.type === "numbers" ? 1 : 2; }
 function getEligibleParticipants() { return draw.options.confirmedOnly ? draw.participants.filter(p => p.status === "confirmed") : draw.participants; }
 function getStatusCounts() {
@@ -97,9 +103,9 @@ function render() {
   renderResult();
   drawButton.disabled = getEligibleParticipants().length < getMinimumParticipants() || isDrawing;
   copyButton.disabled = !draw.result;
-  setControlsLocked(isDrawing);
   shareButton.disabled = !draw.result;
   downloadButton.disabled = !draw.result;
+  setRuleOptionsLocked(isDrawing);
 }
 
 function renderStatusSummary() {
@@ -524,7 +530,13 @@ participantForm.addEventListener("submit", event => {
 drawButton.addEventListener("click", async () => {
   const eligible = getEligibleParticipants();
   if (isDrawing || eligible.length < getMinimumParticipants()) return;
-  isDrawing = true; drawButton.disabled = true; copyButton.disabled = true; winnerCard.classList.add("hidden");
+  isDrawing = true;
+  drawButton.disabled = true;
+  copyButton.disabled = true;
+  shareButton.disabled = true;
+  downloadButton.disabled = true;
+  setRuleOptionsLocked(true);
+  winnerCard.classList.add("hidden");
   await runCountdown();
   const winnerIndex = Sortick.secureRandomIndex(eligible.length);
   const winner = eligible[winnerIndex];
@@ -540,7 +552,11 @@ drawButton.addEventListener("click", async () => {
   if (draw.options.removeWinnerAfterDraw) {
     draw.participants = draw.participants.filter(participant => participant.id !== winner.id);
   }
-  persist(); isDrawing = false; render(); launchConfetti();
+  persist();
+  isDrawing = false;
+  setRuleOptionsLocked(false);
+  render();
+  launchConfetti();
 });
 
 function runCountdown() {
@@ -613,8 +629,27 @@ function runRouletteCanvasAnimation(winnerIndex, eligible) {
   });
 }
 
-confirmedOnlyToggle.addEventListener("change", () => { draw.options.confirmedOnly = confirmedOnlyToggle.checked; draw.result = null; persist(); render(); });
-removeWinnerToggle.addEventListener("change", () => { draw.options.removeWinnerAfterDraw = removeWinnerToggle.checked; persist(); });
+confirmedOnlyToggle.addEventListener("change", () => {
+  if (isDrawing) {
+    confirmedOnlyToggle.checked = Boolean(draw.options.confirmedOnly);
+    return;
+  }
+
+  draw.options.confirmedOnly = confirmedOnlyToggle.checked;
+  draw.result = null;
+  persist();
+  render();
+});
+
+removeWinnerToggle.addEventListener("change", () => {
+  if (isDrawing) {
+    removeWinnerToggle.checked = Boolean(draw.options.removeWinnerAfterDraw);
+    return;
+  }
+
+  draw.options.removeWinnerAfterDraw = removeWinnerToggle.checked;
+  persist();
+});
 participantFilter.addEventListener("change", renderParticipants);
 
 copyButton.addEventListener("click", async () => {
