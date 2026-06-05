@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Sortick — Sorteios simples e transparentes</title>
+  <meta name="description" content="Crie sorteios simples, bonitos e transparentes para grupos, salas e comunidades." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#6c4dff" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Sortick">
+      <img class="brand-icon" src="assets/icon.svg" alt="" />
+      <span>Sortick</span>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html#modos">Modos</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="index.html#criar">Criar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Sorteios comunitários, simples e transparentes</p>
+        <h1>Sorteie nomes, números e roletas sem complicação.</h1>
+        <p class="hero-text">
+          Crie sorteios rápidos para grupos, turmas e decisões em comunidade. Adicione participantes, confirme quem entra e deixe o Sortick sortear.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#criar">Criar sorteio</a>
+          <a class="btn btn-ghost" href="#modos">Ver modos</a>
+        </div>
+
+        <div class="trust-box">
+          <strong>Nota:</strong>
+          O Sortick é uma ferramenta de organização. O organizador é responsável pelo uso e pelas regras aplicáveis.
+        </div>
+      </div>
+
+      <div class="hero-card" aria-hidden="true">
+        <div class="live-label">Modo simples</div>
+        <div class="winner-preview">
+          <span class="small">Vencedor</span>
+          <strong>Nº 27</strong>
+          <span class="ticket">Maria Silva</span>
+        </div>
+        <div class="mini-number-grid">
+          <span class="available">1</span>
+          <span class="taken">2</span>
+          <span class="available">3</span>
+          <span class="taken">4</span>
+          <span class="available">5</span>
+          <span class="available">6</span>
+          <span class="taken">7</span>
+          <span class="available">8</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="modos" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Modos disponíveis</p>
+        <h2>Comece pelo essencial.</h2>
+      </div>
+
+      <div class="mode-grid">
+        <article class="mode-card">
+          <div class="icon">👥</div>
+          <h3>Sorteio por nomes</h3>
+          <p>Adicione participantes e sorteie um vencedor.</p>
+        </article>
+
+        <article class="mode-card">
+          <div class="icon">🎡</div>
+          <h3>Roleta</h3>
+          <p>Uma roleta circular que gira de forma visual e fluida.</p>
+        </article>
+
+        <article class="mode-card">
+          <div class="icon">🔢</div>
+          <h3>Número da sorte</h3>
+          <p>Crie uma cartela, associe números e acompanhe disponíveis e ocupados.</p>
+        </article>
+
+        <article class="mode-card muted">
+          <div class="icon">🎲</div>
+          <h3>Bingo</h3>
+          <p>Planejado para uma versão futura com sala ao vivo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="criar" class="section create-section">
+      <div class="create-panel">
+        <div>
+          <p class="eyebrow">Criar agora</p>
+          <h2>Novo sorteio</h2>
+          <p class="subtle">Crie um sorteio em poucos cliques, sem complicação.</p>
+        </div>
+
+        <form id="createForm" class="form">
+          <label>
+            Nome do sorteio
+            <input id="drawTitle" type="text" placeholder="Ex: Rifa da cesta, sorteio da turma..." maxlength="80" required />
+          </label>
+
+          <label>
+            Tipo
+            <select id="drawType" required>
+              <option value="names">Sorteio por nomes</option>
+              <option value="roulette">Roleta</option>
+              <option value="numbers">Número da sorte / cartela</option>
+            </select>
+          </label>
+
+          <label id="numberQuantityField" class="hidden">
+            Quantidade de números da cartela
+            <input id="totalNumbers" type="number" min="2" max="500" value="50" />
+            <span class="field-hint">Exemplo: 50 cria uma cartela de 1 a 50.</span>
+          </label>
+
+          <label>
+            Modo
+            <select id="drawMode" required>
+              <option value="simple">Simples — dono adiciona e sorteia</option>
+              <option value="live" disabled>Ao vivo — em breve</option>
+            </select>
+          </label>
+
+          <button class="btn btn-primary full" type="submit">Criar sorteio</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer site-footer">
+    <p>
+      Sortick é uma ferramenta de organização e transparência. Não vende bilhetes, não processa pagamentos e não administra premiações.
+    </p>
+    <div class="footer-links">
+      <a href="sobre.html">Sobre</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="mailto:contato.sortick@gmail.com?subject=Erro%20no%20Sortick&body=Ol%C3%A1%2C%20encontrei%20um%20erro%20no%20Sortick.%0A%0ADescreva%20o%20erro%3A%0A%0A%0AModo%20usado%3A%0A%28%20%29%20Nomes%0A%28%20%29%20Roleta%0A%28%20%29%20N%C3%BAmero%20da%20sorte/cartela%0A%28%20%29%20Outro%0A%0AO%20que%20voc%C3%AA%20esperava%20que%20acontecesse%3A%0A%0A%0AO%20que%20aconteceu%3A%0A%0A%0ANavegador/dispositivo%3A%0A">Reportar erro</a>
+    </div>
+  </footer>
+
+  <script src="js/utils.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>
