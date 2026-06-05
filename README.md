@@ -1,4 +1,4 @@
-# Sortick v1.4
+# Sortick v1.4.1
 
 Sortick é uma ferramenta web para criar sorteios simples, visuais e transparentes.
 
@@ -51,3 +51,9 @@ Antes de lançar oficialmente, remova essas restrições para permitir indexaç�
 ## Correção da v1.4
 
 Durante o sorteio, opções e controles ficam bloqueados para evitar mudanças no meio da contagem ou do giro.
+
+
+## Correção da v1.4.1
+
+- Durante o sorteio, controles bloqueados agora exibem cursor de ação não permitida.
+- Mantida a correção da v1.4 que impede alterar regras durante a contagem/giro.

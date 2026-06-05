@@ -1318,3 +1318,28 @@ textarea {
     height: 42px;
   }
 }
+
+/* v1.4.1 - locked controls cursor */
+
+body.drawing-locked .draw-options,
+body.drawing-locked .participant-form,
+body.drawing-locked .participant-tools,
+body.drawing-locked .bulk-panel,
+body.drawing-locked .participant-list {
+  cursor: not-allowed;
+}
+
+body.drawing-locked .draw-options *,
+body.drawing-locked .participant-form *,
+body.drawing-locked .participant-tools *,
+body.drawing-locked .bulk-panel *,
+body.drawing-locked .participant-list * {
+  cursor: not-allowed !important;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed !important;
+}
