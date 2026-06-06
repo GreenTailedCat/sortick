@@ -1,5 +1,8 @@
 # Changelog do Sortick
 
+## v1.8.6-corrigir-caminhos
+- Corrigidos caminhos absolutos de CSS/JS/assets após URLs limpas.
+
 ## v1.8.5-urls-limpas
 - URLs públicas alteradas para formato limpo, sem `.html`.
 - Links internos, sitemap, canonical e cache do PWA atualizados.
