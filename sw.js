@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-8-7-urls-limpas-final-cache";
+const CACHE_NAME = "sortick-v1-8-8-corrigir-logo-cache";
 
 const APP_SHELL = [
   "/",

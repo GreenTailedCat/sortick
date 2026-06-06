@@ -1,5 +1,8 @@
 # Changelog do Sortick
 
+## v1.8.8-corrigir-logo
+- Corrigidos caminhos absolutos da logo/imagens em páginas com URLs limpas.
+
 ## v1.8.7-urls-limpas-final
 - Normalização de URLs `.html` reforçada.
 - Links de cabeçalho/âncoras corrigidos.
