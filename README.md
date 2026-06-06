@@ -1,4 +1,4 @@
-# Sortick v1.8.3-termos-curto
+# Sortick v1.8.4-adsense
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -60,3 +60,9 @@ E confirme que o domínio está com HTTPS funcionando.
 ## v1.8.3-termos-curto
 
 - Texto da seção “Mudanças futuras” dos Termos reduzido para uma frase simples.
+
+
+## v1.8.4-adsense
+
+- Snippet do Google AdSense adicionado ao `<head>` das páginas públicas.
+- Política de Privacidade atualizada com menção ao Google AdSense e anúncios.

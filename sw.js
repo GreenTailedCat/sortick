@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-8-3-termos-curto-cache";
+const CACHE_NAME = "sortick-v1-8-4-adsense-cache";
 
 const APP_SHELL = [
   "./",

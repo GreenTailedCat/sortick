@@ -1,5 +1,9 @@
 # Changelog do Sortick
 
+## v1.8.4-adsense
+- Snippet do Google AdSense adicionado às páginas públicas.
+- Política de Privacidade atualizada para mencionar anúncios.
+
 ## v1.8.3-termos-curto
 - Seção “Mudanças futuras” dos Termos simplificada.
 
