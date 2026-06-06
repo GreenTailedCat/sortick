@@ -1,4 +1,4 @@
-# Sortick v1.8.1-analytics
+# Sortick v1.8.3-termos-curto
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -48,3 +48,15 @@ E confirme que o domínio está com HTTPS funcionando.
 
 - Google Analytics ativado com o ID `G-9D20N8TF1J`.
 - Política de Privacidade atualizada com menção ao uso do Google Analytics.
+
+
+## v1.8.2-termos
+
+- Ajustado o texto da seção “Mudanças futuras” nos Termos.
+- Removida listagem específica de recursos futuros.
+- Texto ficou mais geral, indicando que o Sortick pode mudar e que os termos podem ser atualizados.
+
+
+## v1.8.3-termos-curto
+
+- Texto da seção “Mudanças futuras” dos Termos reduzido para uma frase simples.

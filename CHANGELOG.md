@@ -1,5 +1,11 @@
 # Changelog do Sortick
 
+## v1.8.3-termos-curto
+- Seção “Mudanças futuras” dos Termos simplificada.
+
+## v1.8.2-termos
+- Texto da seção “Mudanças futuras” dos Termos ajustado para uma redação mais geral.
+
 ## v1.8.1-analytics
 - Google Analytics ativado com o ID `G-9D20N8TF1J`.
 - Política de Privacidade atualizada para mencionar métricas de uso.
