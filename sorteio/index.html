@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sortick — Sorteio em andamento</title>
+  <link rel="canonical" href="https://sortick.com.br/sorteio/" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2517804276533396"
+     crossorigin="anonymous"></script>
+  <meta name="description" content="Tela de sorteio do Sortick." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#6c4dff" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="draw-page">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Sortick">
+      <img class="brand-icon" src="assets/icon.svg" alt="" />
+      <span>Sortick</span>
+    </a>
+
+    <nav class="nav">
+      <a href="/#modos">Modos</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/#criar">Criar</a>
+    </nav>
+  </header>
+
+  <main class="draw-layout">
+    <section class="draw-stage">
+      <div class="draw-header">
+        <div>
+          <p id="drawKind" class="eyebrow">Sorteio</p>
+          <h1 id="drawTitle">Carregando...</h1>
+        </div>
+        <span id="drawStatus" class="status-pill">Modo simples</span>
+      </div>
+
+      <div id="animationArea" class="animation-area">
+        <div class="empty-state">
+          <span class="empty-icon">✨</span>
+          <strong>Adicione participantes para começar</strong>
+          <p>Quando estiver pronto, clique em sortear.</p>
+        </div>
+      </div>
+
+      <div id="winnerCard" class="winner-card hidden">
+        <p class="result-kicker">Resultado do sorteio</p>
+        <h2 id="winnerName"></h2>
+        <span id="winnerMeta"></span>
+
+        <div class="proof">
+          <span id="proofText"></span>
+        </div>
+
+        <div class="made-by">Feito no Sortick</div>
+      </div>
+
+      <div class="stage-actions">
+        <button id="drawButton" class="btn btn-primary btn-xl" disabled>Sortear</button>
+        <button id="copyButton" class="btn btn-ghost" disabled>Copiar resumo</button>
+        <button id="shareButton" class="btn btn-ghost" disabled>Compartilhar</button>
+        <button id="downloadButton" class="btn btn-ghost" disabled>Baixar imagem</button>
+        <button id="resetButton" class="btn btn-danger" type="button">Novo sorteio nesta lista</button>
+      </div>
+    </section>
+
+    <aside class="side-panel">
+      <div class="panel-card">
+        <h2>Participantes</h2>
+        <p id="participantHelp" class="subtle">Adicione nomes para o sorteio.</p>
+
+        <form id="participantForm" class="participant-form">
+          <input id="participantName" type="text" placeholder="Nome do participante" maxlength="60" autocomplete="off" />
+
+          <input id="participantNumber" class="hidden" type="number" placeholder="Número" min="1" max="999999" />
+
+          <label class="compact-label">
+            Status
+            <select id="participantStatus">
+              <option value="pending">Pendente</option>
+              <option value="confirmed">Confirmado</option>
+            </select>
+          </label>
+
+          <button class="btn btn-secondary" type="submit">Adicionar</button>
+        </form>
+
+        <div id="bulkAddPanel" class="bulk-panel hidden">
+          <label class="compact-label">
+            Adicionar vários
+            <textarea id="bulkText" rows="6" placeholder="Um nome por linha&#10;Ex:&#10;Ana&#10;Bruno&#10;Carla"></textarea>
+          </label>
+          <div class="bulk-actions">
+            <button id="confirmBulkButton" class="btn btn-secondary" type="button">Adicionar lista</button>
+            <button id="cancelBulkButton" class="btn btn-ghost light" type="button">Cancelar</button>
+          </div>
+        </div>
+
+        <div id="validationMessage" class="validation"></div>
+
+        <div id="statusSummary" class="status-summary">
+          <span>Total: 0</span>
+          <span>Confirmados: 0</span>
+          <span>Pendentes: 0</span>
+        </div>
+
+        <div id="numberLegend" class="number-legend hidden">
+          <span><i class="dot available-dot"></i>Disponível</span>
+          <span><i class="dot taken-dot"></i>Ocupado</span>
+          <span><i class="dot confirmed-dot"></i>Confirmado</span>
+          <span><i class="dot pending-dot"></i>Pendente</span>
+        </div>
+
+        <div class="draw-options">
+          <label class="inline-option">
+            <input id="confirmedOnlyToggle" type="checkbox" />
+            Sortear só confirmados
+          </label>
+
+          <label class="inline-option">
+            <input id="removeWinnerToggle" type="checkbox" />
+            Remover vencedor da lista
+          </label>
+
+
+          <label id="soundOption" class="inline-option">
+            <input id="soundToggle" type="checkbox" />
+            Som ativado
+          </label>
+
+
+          <label id="bingoRepeatOption" class="inline-option hidden">
+            <input id="bingoRepeatToggle" type="checkbox" />
+            Permitir números repetidos
+          </label>
+
+          <label class="compact-label">
+            Mostrar
+            <select id="participantFilter">
+              <option value="all">Todos</option>
+              <option value="confirmed">Confirmados</option>
+              <option value="pending">Pendentes</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="participant-tools">
+          <button id="bulkButton" class="link-button" type="button">Adicionar vários</button>
+          <button id="shuffleButton" class="link-button" type="button">Embaralhar lista</button>
+          <button id="sampleButton" class="link-button" type="button">Usar exemplo</button>
+          <button id="clearParticipantsButton" class="link-button danger-text" type="button">Limpar tudo</button>
+        </div>
+
+        <ol id="participantList" class="participant-list"></ol>
+      </div>
+
+      <div class="panel-card small-card">
+        <h3>Transparência</h3>
+        <p>
+          O sorteio usa aleatoriedade do navegador com <code>crypto.getRandomValues</code>, quando disponível.
+        </p>
+      </div>
+    </aside>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/sorteio.js"></script>
+  <script src="js/official-domain.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

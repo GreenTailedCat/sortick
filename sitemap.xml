@@ -6,17 +6,17 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sortick.com.br/sobre.html</loc>
+    <loc>https://sortick.com.br/sobre/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sortick.com.br/privacidade.html</loc>
+    <loc>https://sortick.com.br/privacidade/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://sortick.com.br/termos.html</loc>
+    <loc>https://sortick.com.br/termos/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>

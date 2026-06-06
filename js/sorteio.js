@@ -50,7 +50,7 @@ if (!draw) {
       <p class="eyebrow">Sorteio não encontrado</p>
       <h2>Este sorteio não existe neste navegador.</h2>
       <p class="subtle">Crie um novo sorteio para continuar.</p>
-      <a class="btn btn-primary" href="index.html">Criar sorteio</a>
+      <a class="btn btn-primary" href="/">Criar sorteio</a>
     </div></div></main>`;
 } else {
   draw.options = draw.options || {};

@@ -78,5 +78,5 @@ form.addEventListener("submit", (event) => {
     });
   }
 
-  window.location.href = `sorteio.html?id=${encodeURIComponent(draw.id)}`;
+  window.location.href = `/sorteio/?id=${encodeURIComponent(draw.id)}`;
 });

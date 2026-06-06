@@ -1,5 +1,10 @@
 # Changelog do Sortick
 
+## v1.8.5-urls-limpas
+- URLs públicas alteradas para formato limpo, sem `.html`.
+- Links internos, sitemap, canonical e cache do PWA atualizados.
+- Redirects simples adicionados para compatibilidade com links antigos.
+
 ## v1.8.4-adsense
 - Snippet do Google AdSense adicionado às páginas públicas.
 - Política de Privacidade atualizada para mencionar anúncios.

@@ -1,13 +1,13 @@
-const CACHE_NAME = "sortick-v1-8-4-adsense-cache";
+const CACHE_NAME = "sortick-v1-8-5-urls-limpas-cache";
 
 const APP_SHELL = [
   "./",
-  "./index.html",
-  "./sorteio.html",
-  "./offline.html",
-  "./sobre.html",
-  "./privacidade.html",
-  "./termos.html",
+  "./",
+  "./sorteio/",
+  "./offline/",
+  "./sobre/",
+  "./privacidade/",
+  "./termos/",
   "./css/style.css",
   "./js/utils.js",
   "./js/index.js",
@@ -58,7 +58,7 @@ self.addEventListener("fetch", event => {
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
           return response;
         })
-        .catch(() => caches.match("./offline.html"));
+        .catch(() => caches.match("./offline/"));
     })
   );
 });

@@ -1,4 +1,4 @@
-# Sortick v1.8.4-adsense
+# Sortick v1.8.5-urls-limpas
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -66,3 +66,11 @@ E confirme que o domínio está com HTTPS funcionando.
 
 - Snippet do Google AdSense adicionado ao `<head>` das páginas públicas.
 - Política de Privacidade atualizada com menção ao Google AdSense e anúncios.
+
+
+## v1.8.5-urls-limpas
+
+- Páginas públicas reorganizadas para URLs sem `.html`.
+- Links internos atualizados para `/`, `/sobre/`, `/termos/`, `/privacidade/`, `/sorteio/`.
+- Sitemap e canonical atualizados para URLs limpas.
+- Redirects simples adicionados para links antigos `.html`.
