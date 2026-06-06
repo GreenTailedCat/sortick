@@ -1,59 +1,18 @@
-# Sortick v1.4.2
+# Sortick v1.5-som.3
 
-Sortick é uma ferramenta web para criar sorteios simples, visuais e transparentes.
+Versão baseada na v1.4.2 estável, com efeitos sonoros.
 
-## Recursos atuais
+## Corrigido
 
-- Sorteio por nomes
-- Roleta circular
-- Cartela de números
-- Status Confirmado/Pendente
-- Sortear apenas confirmados
-- Remover vencedor após sortear
-- Adicionar vários nomes
-- Embaralhar lista
-- Compartilhar resultado
-- Baixar imagem do resultado
-- PWA inicial
-- Páginas Sobre, Privacidade e Termos
-- Reportar erro por e-mail
+- A roleta agora toca um som de "tick" enquanto gira.
+- O som acontece quando o ponteiro passa de uma fatia/nome para outro.
+- Mantido som na contagem regressiva, cartela/números e resultado.
+- Corrigido pequeno trecho indevido no listener de "Remover vencedor".
 
-## Deploy
+## Teste recomendado
 
-Veja:
-
-```text
-DEPLOY.md
-```
-
-## Checklist de teste
-
-Veja:
-
-```text
-CHECKLIST.md
-```
-
-## Observação
-
-Esta versão está preparada para deploy não divulgado.
-
-Ela contém:
-
-```text
-robots.txt
-<meta name="robots" content="noindex, nofollow" />
-```
-
-Antes de lançar oficialmente, remova essas restrições para permitir indexação.
-
-
-## Correção da v1.4.2
-
-Esta versão volta para a base estável v1.3 e aplica apenas uma correção mínima:
-
-- durante o sorteio, bloqueia somente:
-  - Sortear apenas confirmados;
-  - Remover vencedor após sortear.
-- os outros controles não ficam bloqueados antes do sorteio.
-- as duas opções bloqueadas exibem cursor de ação não permitida durante a contagem/giro.
+1. Criar roleta.
+2. Adicionar exemplo.
+3. Ativar "Som ativado".
+4. Sortear.
+5. A roleta deve fazer sons durante o giro, não apenas no resultado.

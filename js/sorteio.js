@@ -32,6 +32,7 @@ const clearParticipantsButton = document.querySelector("#clearParticipantsButton
 const numberLegend = document.querySelector("#numberLegend");
 const confirmedOnlyToggle = document.querySelector("#confirmedOnlyToggle");
 const removeWinnerToggle = document.querySelector("#removeWinnerToggle");
+const soundToggle = document.querySelector("#soundToggle");
 const participantFilter = document.querySelector("#participantFilter");
 const statusSummary = document.querySelector("#statusSummary");
 const bulkButton = document.querySelector("#bulkButton");
@@ -53,6 +54,7 @@ if (!draw) {
   draw.options = draw.options || {};
   draw.options.confirmedOnly = Boolean(draw.options.confirmedOnly);
   draw.options.removeWinnerAfterDraw = Boolean(draw.options.removeWinnerAfterDraw);
+  draw.options.soundEnabled = Boolean(draw.options.soundEnabled);
   draw.participants = draw.participants.map(p => ({ ...p, status: p.status || "pending" }));
   setupDraw();
 }
@@ -63,6 +65,7 @@ function setupDraw() {
   drawStatus.textContent = draw.mode === "simple" ? "Modo simples" : "Modo ao vivo";
   confirmedOnlyToggle.checked = Boolean(draw.options.confirmedOnly);
   removeWinnerToggle.checked = Boolean(draw.options.removeWinnerAfterDraw);
+  if (soundToggle) soundToggle.checked = Boolean(draw.options.soundEnabled);
 
   if (draw.type === "numbers") {
     participantNumber.classList.remove("hidden");
@@ -306,6 +309,7 @@ function renderNumberBoard(highlightNumber = null) {
       const participant = takenByNumber.get(String(number));
       if (participant) return toggleParticipantStatus(participant.id);
       participantNumber.value = number;
+      playSelectSound();
       participantName.focus();
       setValidation(`Número ${number} selecionado. Informe o nome do participante.`);
     });
@@ -559,6 +563,78 @@ drawButton.addEventListener("click", async () => {
   launchConfetti();
 });
 
+
+let sortickAudioContext = null;
+
+function getSortickAudioContext() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContext) {
+    return null;
+  }
+
+  if (!sortickAudioContext) {
+    sortickAudioContext = new AudioContext();
+  }
+
+  if (sortickAudioContext.state === "suspended") {
+    sortickAudioContext.resume();
+  }
+
+  return sortickAudioContext;
+}
+
+function playTone(frequency = 440, duration = 0.08, type = "sine", volume = 0.035) {
+  if (!draw.options.soundEnabled) {
+    return;
+  }
+
+  try {
+    const context = getSortickAudioContext();
+
+    if (!context) {
+      return;
+    }
+
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    const now = context.currentTime;
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, now);
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(volume, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+
+    oscillator.start(now);
+    oscillator.stop(now + duration + 0.03);
+  } catch {
+    // Se o navegador bloquear áudio, o Sortick continua funcionando sem som.
+  }
+}
+
+function playTickSound() {
+  playTone(620, 0.045, "square", 0.025);
+}
+
+function playSelectSound() {
+  playTone(420, 0.055, "sine", 0.025);
+}
+
+function playSuccessSound() {
+  if (!draw.options.soundEnabled) {
+    return;
+  }
+
+  playTone(523.25, 0.09, "sine", 0.045);
+  setTimeout(() => playTone(659.25, 0.09, "sine", 0.045), 95);
+  setTimeout(() => playTone(783.99, 0.14, "sine", 0.045), 190);
+}
+
 function runCountdown() {
   const steps = ["3", "2", "1"];
   let index = 0;
@@ -566,6 +642,7 @@ function runCountdown() {
     function next() {
       if (index >= steps.length) return resolve();
       animationArea.innerHTML = `<div class="countdown-number">${steps[index]}</div>`;
+      playTickSound();
       index += 1;
       setTimeout(next, 640);
     }
@@ -595,12 +672,13 @@ async function runAnimation(winner, winnerIndex, eligible) {
       const delay = 55 + progress * 170;
       if (now - lastTick > delay) {
         lastTick = now;
+        playTickSound();
         const randomParticipant = eligible[Sortick.secureRandomIndex(eligible.length)];
         if (draw.type === "numbers") renderNumberBoard(randomParticipant.number);
         else animationArea.innerHTML = `<div class="rolling-name">${Sortick.escapeHTML(getParticipantDisplay(randomParticipant))}</div>`;
       }
       if (progress < 1) requestAnimationFrame(frame);
-      else { draw.type === "numbers" ? renderNumberBoard(winner.number) : animationArea.innerHTML = `<div class="rolling-name">${Sortick.escapeHTML(getParticipantDisplay(winner))}</div>`; setTimeout(() => resolve({}), 350); }
+      else { draw.type === "numbers" ? renderNumberBoard(winner.number) : animationArea.innerHTML = `<div class="rolling-name">${Sortick.escapeHTML(getParticipantDisplay(winner))}</div>`; playSuccessSound(); setTimeout(() => resolve({}), 350); }
     }
     requestAnimationFrame(frame);
   });
@@ -614,17 +692,43 @@ function runRouletteCanvasAnimation(winnerIndex, eligible) {
   const normalizedTarget = 360 - winnerCenter;
   const extraTurns = 6 + Sortick.secureRandomIndex(3);
   const finalRotation = currentBase + extraTurns * 360 + ((normalizedTarget - currentBase + 360) % 360);
-  const duration = 4300, start = performance.now(), startRotation = currentWheelRotation;
+  const duration = 4300;
+  const start = performance.now();
+  const startRotation = currentWheelRotation;
+
+  let lastActiveIndex = null;
+  let lastWheelTickTime = 0;
+
   renderRouletteCanvas(startRotation, null);
+
   return new Promise(resolve => {
     function frame(now) {
       const progress = Math.min((now - start) / duration, 1);
       const rotation = startRotation + (finalRotation - startRotation) * easeOutCubic(progress);
+
       currentWheelRotation = rotation;
       drawWheel(document.querySelector("#rouletteCanvas"), eligible, rotation, null);
-      if (progress < 1) requestAnimationFrame(frame);
-      else { currentWheelRotation = finalRotation; renderRouletteCanvas(finalRotation, winnerIndex); setTimeout(() => resolve({ wheelRotation: finalRotation }), 350); }
+
+      const normalizedRotation = ((rotation % 360) + 360) % 360;
+      const pointerAngle = (360 - normalizedRotation + 360) % 360;
+      const activeIndex = Math.floor(pointerAngle / sliceDegrees) % count;
+
+      if (activeIndex !== lastActiveIndex && now - lastWheelTickTime > 28) {
+        lastActiveIndex = activeIndex;
+        lastWheelTickTime = now;
+        playTickSound();
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        currentWheelRotation = finalRotation;
+        renderRouletteCanvas(finalRotation, winnerIndex);
+        playSuccessSound();
+        setTimeout(() => resolve({ wheelRotation: finalRotation }), 350);
+      }
     }
+
     requestAnimationFrame(frame);
   });
 }
@@ -650,6 +754,22 @@ removeWinnerToggle.addEventListener("change", () => {
   draw.options.removeWinnerAfterDraw = removeWinnerToggle.checked;
   persist();
 });
+
+if (soundToggle) {
+  soundToggle.addEventListener("change", () => {
+    draw.options.soundEnabled = soundToggle.checked;
+    persist();
+
+    if (soundToggle.checked) {
+      getSortickAudioContext();
+      playSuccessSound();
+      setValidation("Som ativado.");
+    } else {
+      setValidation("Som desativado.");
+    }
+  });
+}
+
 participantFilter.addEventListener("change", renderParticipants);
 
 copyButton.addEventListener("click", async () => {

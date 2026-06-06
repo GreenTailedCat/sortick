@@ -1,5 +1,13 @@
 # Changelog do Sortick
 
+## v1.5-som.3
+- Roleta agora toca som de tick ao passar pelas fatias/nomes.
+- Corrigido listener de remover vencedor.
+
+## v1.5-som.2
+- Corrigida inserção do checkbox “Som ativado”.
+- Áudio inicializado no clique do usuário.
+
 ## v1.4.2
 - Revertida a base para a v1.3 estável.
 - Correção mínima: bloqueia apenas “Sortear apenas confirmados” e “Remover vencedor” durante o sorteio.

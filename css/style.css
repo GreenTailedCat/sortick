@@ -1332,3 +1332,10 @@ body.drawing-locked #confirmedOnlyToggle:disabled,
 body.drawing-locked #removeWinnerToggle:disabled {
   cursor: not-allowed !important;
 }
+
+
+/* v1.5-som.2 */
+
+#soundOption {
+  user-select: none;
+}

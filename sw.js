@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-4-2-cache";
+const CACHE_NAME = "sortick-v1-5-som-3-cache";
 
 const APP_SHELL = [
   "./",
