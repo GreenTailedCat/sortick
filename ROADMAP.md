@@ -2,6 +2,8 @@
 
 ## Atual
 
+- Bingo simples/offline
+
 - Modo simples/offline
 - Sorteio por nomes
 - Roleta

@@ -1,5 +1,28 @@
 # Changelog do Sortick
 
+## v1.8.1-analytics
+- Google Analytics ativado com o ID `G-9D20N8TF1J`.
+- Política de Privacidade atualizada para mencionar métricas de uso.
+
+## v1.8-publico
+- Removido noindex.
+- robots.txt liberado para indexação.
+- Adicionado sitemap.xml.
+- Adicionados canonical links para sortick.com.br.
+- Adicionada estrutura preparada para GA4 Analytics.
+- Adicionado redirecionamento da URL github.io para o domínio oficial.
+
+## v1.7-bingo
+- Adicionado modo Bingo simples.
+- Adicionado histórico de números sorteados.
+- Adicionada opção para permitir ou bloquear números repetidos durante o jogo.
+- Layout compacto da cartela preservado.
+
+## v1.6-grupos
+- Adicionado modo Grupos / Times.
+- Mantida a base estável v1.5-som.3.
+- Layout compacto da cartela preservado.
+
 ## v1.5-som.3
 - Roleta agora toca som de tick ao passar pelas fatias/nomes.
 - Corrigido listener de remover vencedor.

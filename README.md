@@ -1,18 +1,50 @@
-# Sortick v1.5-som.3
+# Sortick v1.8.1-analytics
 
-Versão baseada na v1.4.2 estável, com efeitos sonoros.
+Versão preparada para abertura pública do domínio `sortick.com.br`.
 
-## Corrigido
+## Mudanças
 
-- A roleta agora toca um som de "tick" enquanto gira.
-- O som acontece quando o ponteiro passa de uma fatia/nome para outro.
-- Mantido som na contagem regressiva, cartela/números e resultado.
-- Corrigido pequeno trecho indevido no listener de "Remover vencedor".
+- Removido `noindex` das páginas HTML
+- `robots.txt` agora permite indexação
+- Adicionado `sitemap.xml`
+- Adicionadas tags `canonical` apontando para `https://sortick.com.br`
+- Adicionado redirecionamento da URL técnica do GitHub Pages para o domínio oficial
+- Adicionada estrutura de Analytics em `js/analytics.js`
+- Eventos básicos preparados:
+  - criar sorteio
+  - iniciar sorteio
+  - copiar resultado
+  - compartilhar resultado
+  - baixar imagem
 
-## Teste recomendado
+## Analytics
 
-1. Criar roleta.
-2. Adicionar exemplo.
-3. Ativar "Som ativado".
-4. Sortear.
-5. A roleta deve fazer sons durante o giro, não apenas no resultado.
+O Google Analytics está ativo com o ID:
+
+```text
+G-9D20N8TF1J
+```
+
+Eventos básicos preparados:
+
+- criar sorteio
+- iniciar sorteio
+- copiar resultado
+- compartilhar resultado
+- baixar imagem
+
+## Importante
+
+Antes de AdSense, revise as páginas:
+
+- Sobre
+- Privacidade
+- Termos
+
+E confirme que o domínio está com HTTPS funcionando.
+
+
+## v1.8.1-analytics
+
+- Google Analytics ativado com o ID `G-9D20N8TF1J`.
+- Política de Privacidade atualizada com menção ao uso do Google Analytics.

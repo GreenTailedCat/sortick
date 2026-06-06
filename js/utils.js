@@ -84,7 +84,9 @@ const Sortick = (() => {
     const labels = {
       names: "Sorteio por nomes",
       roulette: "Roleta",
-      numbers: "Número da sorte"
+      numbers: "Número da sorte",
+      bingo: "Bingo",
+      groups: "Grupos / Times"
     };
 
     return labels[type] || "Sorteio";

@@ -33,6 +33,8 @@ const numberLegend = document.querySelector("#numberLegend");
 const confirmedOnlyToggle = document.querySelector("#confirmedOnlyToggle");
 const removeWinnerToggle = document.querySelector("#removeWinnerToggle");
 const soundToggle = document.querySelector("#soundToggle");
+const bingoRepeatToggle = document.querySelector("#bingoRepeatToggle");
+const bingoRepeatOption = document.querySelector("#bingoRepeatOption");
 const participantFilter = document.querySelector("#participantFilter");
 const statusSummary = document.querySelector("#statusSummary");
 const bulkButton = document.querySelector("#bulkButton");
@@ -55,6 +57,9 @@ if (!draw) {
   draw.options.confirmedOnly = Boolean(draw.options.confirmedOnly);
   draw.options.removeWinnerAfterDraw = Boolean(draw.options.removeWinnerAfterDraw);
   draw.options.soundEnabled = Boolean(draw.options.soundEnabled);
+  draw.options.groupCount = Sortick.clampNumber(draw.options.groupCount || 2, 2, 50);
+  draw.options.bingoAllowRepeats = Boolean(draw.options.bingoAllowRepeats);
+  draw.options.bingoDrawnNumbers = Array.isArray(draw.options.bingoDrawnNumbers) ? draw.options.bingoDrawnNumbers : [];
   draw.participants = draw.participants.map(p => ({ ...p, status: p.status || "pending" }));
   setupDraw();
 }
@@ -76,6 +81,29 @@ function setupDraw() {
     participantHelp.textContent = "Toque em um número verde para selecionar. Toque em um número ocupado para alternar Confirmado/Pendente.";
   } else if (draw.type === "roulette") {
     participantHelp.textContent = "Adicione nomes ou opções para a roleta. Use Confirmado/Pendente para controlar quem entra.";
+  } else if (draw.type === "bingo") {
+    participantForm.classList.add("hidden");
+    bulkButton.classList.add("hidden");
+    shuffleButton.classList.add("hidden");
+    sampleButton.classList.add("hidden");
+    clearParticipantsButton.textContent = "Limpar histórico";
+    drawButton.textContent = "Sortear número";
+    resetButton.textContent = "Reiniciar bingo";
+    confirmedOnlyToggle.closest("label").classList.add("hidden");
+    removeWinnerToggle.closest("label").classList.add("hidden");
+    participantFilter.closest("label").classList.add("hidden");
+
+    if (bingoRepeatOption) bingoRepeatOption.classList.remove("hidden");
+    if (bingoRepeatToggle) bingoRepeatToggle.checked = Boolean(draw.options.bingoAllowRepeats);
+
+    participantHelp.textContent = "Sorteie números para cartelas físicas. Escolha se os números podem repetir durante o jogo.";
+  } else if (draw.type === "groups") {
+    participantHelp.textContent = `Adicione nomes e gere ${draw.options.groupCount} grupo(s).`;
+    drawButton.textContent = "Gerar grupos";
+    confirmedOnlyToggle.closest("label").classList.add("hidden");
+    removeWinnerToggle.closest("label").classList.add("hidden");
+    participantFilter.closest("label").classList.add("hidden");
+    participantStatus.closest("label").classList.add("hidden");
   } else {
     participantHelp.textContent = "Adicione nomes para o sorteio. Use Confirmado/Pendente para controlar quem entra.";
   }
@@ -104,7 +132,13 @@ function render() {
   renderParticipants();
   renderAnimationIdle();
   renderResult();
-  drawButton.disabled = getEligibleParticipants().length < getMinimumParticipants() || isDrawing;
+  let canDraw = getEligibleParticipants().length >= getMinimumParticipants();
+
+  if (draw.type === "bingo") {
+    canDraw = draw.options.bingoAllowRepeats || getRemainingBingoNumbers().length > 0;
+  }
+
+  drawButton.disabled = !canDraw || isDrawing;
   copyButton.disabled = !draw.result;
   shareButton.disabled = !draw.result;
   downloadButton.disabled = !draw.result;
@@ -112,6 +146,28 @@ function render() {
 }
 
 function renderStatusSummary() {
+  if (draw.type === "bingo") {
+    const drawn = draw.options.bingoDrawnNumbers.length;
+    const uniqueDrawn = new Set(draw.options.bingoDrawnNumbers.map(String)).size;
+    const total = getTotalNumbers();
+
+    statusSummary.innerHTML = `
+      <span>Total: ${total}</span>
+      <span>Sorteados: ${drawn}</span>
+      <span>${draw.options.bingoAllowRepeats ? "Repetição: sim" : `Restantes: ${total - uniqueDrawn}`}</span>
+    `;
+    return;
+  }
+
+  if (draw.type === "groups") {
+    statusSummary.innerHTML = `
+      <span>Participantes: ${draw.participants.length}</span>
+      <span>Grupos: ${draw.options.groupCount}</span>
+      <span>Distribuição aleatória</span>
+    `;
+    return;
+  }
+
   const c = getStatusCounts();
   statusSummary.innerHTML = `
     <span>Total: ${c.total}</span>
@@ -123,6 +179,65 @@ function renderStatusSummary() {
 
 function renderParticipants() {
   participantList.innerHTML = "";
+
+  if (draw.type === "bingo") {
+    const drawn = draw.options.bingoDrawnNumbers;
+
+    if (drawn.length === 0) {
+      participantList.innerHTML = `<li><span>Nenhum número sorteado ainda</span></li>`;
+      return;
+    }
+
+    drawn.slice().reverse().forEach((number, index) => {
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <div class="participant-main-line">
+          <span class="participant-name-line">
+            <i class="status-dot confirmed-dot"></i>
+            <strong>Nº ${Sortick.escapeHTML(number)}</strong>
+            ${index === 0 ? "<small>último número</small>" : ""}
+          </span>
+        </div>`;
+
+      participantList.appendChild(li);
+    });
+
+    return;
+  }
+
+  if (draw.type === "groups") {
+    const items = draw.participants.slice();
+
+    if (items.length === 0) {
+      participantList.innerHTML = `<li><span>Nenhum participante para mostrar</span></li>`;
+      return;
+    }
+
+    items.forEach(participant => {
+      const originalIndex = draw.participants.findIndex(p => p.id === participant.id);
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <div class="participant-main-line">
+          <span class="participant-name-line"><strong>${Sortick.escapeHTML(participant.name)}</strong></span>
+          <button class="remove-button" type="button" aria-label="Remover participante">×</button>
+        </div>`;
+
+      li.querySelector(".remove-button").addEventListener("click", () => {
+        if (isDrawing) return;
+        draw.participants.splice(originalIndex, 1);
+        draw.result = null;
+        persist();
+        render();
+      });
+
+      participantList.appendChild(li);
+    });
+
+    return;
+  }
+
   let items = draw.participants.slice();
   const filter = participantFilter.value;
   if (filter !== "all") items = items.filter(p => p.status === filter);
@@ -180,6 +295,8 @@ function toggleParticipantStatus(participantId) {
 
 function renderAnimationIdle() {
   if (draw.type === "numbers") return renderNumberBoard();
+  if (draw.type === "bingo") return renderBingoBoard();
+  if (draw.type === "groups") return renderGroupsIdle();
   if (draw.type === "roulette") return renderRouletteCanvas(draw.result?.wheelRotation || 0, draw.result?.participantIndex ?? null);
 
   if (draw.result) {
@@ -194,6 +311,137 @@ function renderAnimationIdle() {
       <strong>${eligible.length >= getMinimumParticipants() ? "Pronto para sortear" : `Faltam participantes elegíveis`}</strong>
       <p>${eligible.length} participante(s) pronto(s) para o sorteio.</p>
     </div>`;
+}
+
+function getRemainingBingoNumbers() {
+  const drawn = new Set(draw.options.bingoDrawnNumbers.map(String));
+  const remaining = [];
+
+  for (let number = 1; number <= getTotalNumbers(); number += 1) {
+    if (!drawn.has(String(number))) remaining.push(number);
+  }
+
+  return remaining;
+}
+
+function getNextBingoNumber() {
+  const total = getTotalNumbers();
+
+  if (draw.options.bingoAllowRepeats) {
+    return String(Sortick.secureRandomIndex(total) + 1);
+  }
+
+  const remaining = getRemainingBingoNumbers();
+
+  if (!remaining.length) {
+    return null;
+  }
+
+  return String(remaining[Sortick.secureRandomIndex(remaining.length)]);
+}
+
+function renderBingoBoard(highlightNumber = null) {
+  const total = getTotalNumbers();
+  const drawnSet = new Set(draw.options.bingoDrawnNumbers.map(String));
+  const latest = highlightNumber || draw.options.bingoDrawnNumbers[draw.options.bingoDrawnNumbers.length - 1] || null;
+  const uniqueDrawn = drawnSet.size;
+
+  let cells = "";
+
+  for (let number = 1; number <= total; number += 1) {
+    const isDrawn = drawnSet.has(String(number));
+    const isLatest = String(latest) === String(number);
+
+    cells += `
+      <button class="number-cell ${isDrawn ? "taken" : "available"} ${isLatest ? "winner" : ""}" type="button" disabled>
+        <span>${number}</span>
+      </button>`;
+  }
+
+  animationArea.innerHTML = `
+    <div class="number-board-wrap bingo-wrap">
+      <div class="number-board-header">
+        <span>Bingo de 1 a ${total}</span>
+        <small>${draw.options.bingoDrawnNumbers.length} sorteados · ${draw.options.bingoAllowRepeats ? "repetição permitida" : `${total - uniqueDrawn} restantes`}</small>
+      </div>
+
+      <div class="bingo-latest">
+        ${latest ? `<small>Último número</small><strong>${Sortick.escapeHTML(latest)}</strong>` : `<small>Nenhum número sorteado</small><strong>--</strong>`}
+      </div>
+
+      <div class="number-board">${cells}</div>
+    </div>`;
+}
+
+function runBingoAnimation(finalNumber) {
+  const duration = 1900;
+  const start = performance.now();
+  let lastTick = 0;
+
+  return new Promise(resolve => {
+    function frame(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const delay = 70 + progress * 130;
+
+      if (now - lastTick > delay) {
+        lastTick = now;
+        playTickSound();
+
+        const randomNumber = String(Sortick.secureRandomIndex(getTotalNumbers()) + 1);
+        renderBingoBoard(randomNumber);
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        renderBingoBoard(finalNumber);
+        playSuccessSound();
+        setTimeout(resolve, 350);
+      }
+    }
+
+    requestAnimationFrame(frame);
+  });
+}
+
+function renderGroupsIdle() {
+  if (draw.result?.groups) {
+    animationArea.innerHTML = renderGroupsHTML(draw.result.groups);
+    return;
+  }
+
+  animationArea.innerHTML = `
+    <div class="empty-state">
+      <span class="empty-icon">🏆</span>
+      <strong>${draw.participants.length >= 2 ? "Pronto para gerar grupos" : "Adicione pelo menos 2 participantes"}</strong>
+      <p>${draw.participants.length} participante(s) · ${draw.options.groupCount} grupo(s)</p>
+    </div>`;
+}
+
+function renderGroupsHTML(groups) {
+  return `
+    <div class="groups-board">
+      ${groups.map((group, index) => `
+        <div class="group-card">
+          <h3>Grupo ${index + 1}</h3>
+          <ol>
+            ${group.map(name => `<li>${Sortick.escapeHTML(name)}</li>`).join("")}
+          </ol>
+        </div>
+      `).join("")}
+    </div>`;
+}
+
+function generateGroups() {
+  const shuffled = Sortick.shuffleArray(draw.participants.map(p => p.name));
+  const groupCount = Math.min(draw.options.groupCount, shuffled.length);
+  const groups = Array.from({ length: groupCount }, () => []);
+
+  shuffled.forEach((name, index) => {
+    groups[index % groupCount].push(name);
+  });
+
+  return groups;
 }
 
 function renderRouletteCanvas(rotation = currentWheelRotation, activeIndex = null) {
@@ -320,16 +568,51 @@ function renderResult() {
   if (!draw.result) {
     winnerCard.classList.add("hidden"); winnerName.textContent = ""; winnerMeta.textContent = ""; proofText.textContent = ""; return;
   }
-  const p = draw.result.participant;
   winnerCard.classList.remove("hidden");
+
+  if (draw.type === "groups") {
+    winnerName.textContent = "Grupos gerados";
+    winnerMeta.textContent = `${draw.result.groups.length} grupo(s) · ${draw.result.participantCount} participante(s)`;
+    proofText.textContent = createProofText();
+    return;
+  }
+
+  const p = draw.result.participant;
   winnerName.textContent = getParticipantDisplay(p);
-  winnerMeta.textContent = draw.type === "numbers" ? `Associado a: ${p.name} · ${Sortick.statusLabel(p.status)}` : `${Sortick.typeLabel(draw.type)} · ${Sortick.statusLabel(p.status)}`;
+
+  if (draw.type === "bingo") {
+    winnerMeta.textContent = `Bingo de 1 a ${getTotalNumbers()} · ${draw.options.bingoAllowRepeats ? "repetição permitida" : "sem repetição"}`;
+  } else {
+    winnerMeta.textContent = draw.type === "numbers" ? `Associado a: ${p.name} · ${Sortick.statusLabel(p.status)}` : `${Sortick.typeLabel(draw.type)} · ${Sortick.statusLabel(p.status)}`;
+  }
+
   proofText.textContent = createProofText();
 }
 
-function getParticipantDisplay(participant) { return draw.type === "numbers" ? `Nº ${participant.number}` : participant.name; }
+function getParticipantDisplay(participant) {
+  if (draw.type === "numbers" || draw.type === "bingo") return `Nº ${participant.number}`;
+  return participant.name;
+}
 function createProofText() {
   if (!draw.result) return "";
+
+  if (draw.type === "groups") {
+    const lines = [
+      "Sortick — Grupos gerados",
+      `Sorteio: ${draw.title}`,
+      `Participantes: ${draw.result.participantCount}`,
+      `Data: ${Sortick.formatDateTime(draw.result.createdAt)}`,
+      ""
+    ];
+
+    draw.result.groups.forEach((group, index) => {
+      lines.push(`Grupo ${index + 1}: ${group.join(", ")}`);
+    });
+
+    lines.push("");
+    lines.push("Feito no Sortick");
+    return lines.join("\n");
+  }
 
   const p = draw.result.participant;
   const lines = [
@@ -342,10 +625,17 @@ function createProofText() {
   if (draw.type === "numbers") {
     lines.push(`Associado a: ${p.name}`);
     lines.push(`Cartela: 1 a ${getTotalNumbers()}`);
+    lines.push(`Status: ${Sortick.statusLabel(p.status)}`);
+    lines.push(`Participantes no sorteio: ${draw.result.participantCount || draw.participants.length}`);
+  } else if (draw.type === "bingo") {
+    lines.push(`Bingo: 1 a ${getTotalNumbers()}`);
+    lines.push(`Modo: ${draw.options.bingoAllowRepeats ? "com repetição" : "sem repetição"}`);
+    lines.push(`Números sorteados: ${draw.options.bingoDrawnNumbers.join(", ")}`);
+  } else {
+    lines.push(`Status: ${Sortick.statusLabel(p.status)}`);
+    lines.push(`Participantes no sorteio: ${draw.result.participantCount || draw.participants.length}`);
   }
 
-  lines.push(`Status: ${Sortick.statusLabel(p.status)}`);
-  lines.push(`Participantes no sorteio: ${draw.result.participantCount || draw.participants.length}`);
   lines.push(`Data: ${Sortick.formatDateTime(draw.result.createdAt)}`);
   lines.push(`Feito no Sortick`);
 
@@ -354,6 +644,10 @@ function createProofText() {
 
 function createShareText() {
   if (!draw.result) return "";
+
+  if (draw.type === "groups") {
+    return createProofText();
+  }
 
   const p = draw.result.participant;
   const lines = [
@@ -408,7 +702,7 @@ function wrapCanvasText(context, text, x, y, maxWidth, lineHeight) {
 function downloadResultImage() {
   if (!draw.result) return;
 
-  const p = draw.result.participant;
+  const p = draw.result.participant || { name: "Grupos gerados", status: "confirmed" };
   const canvas = document.createElement("canvas");
   canvas.width = 1200;
   canvas.height = 1200;
@@ -436,7 +730,7 @@ function downloadResultImage() {
 
   ctx.fillStyle = "#17142f";
   ctx.font = "900 44px Inter, Arial, sans-serif";
-  ctx.fillText("Resultado do sorteio", 150, 180);
+  ctx.fillText(draw.type === "groups" ? "Grupos gerados" : "Resultado do sorteio", 150, 180);
 
   ctx.fillStyle = "#6f6b85";
   ctx.font = "700 28px Inter, Arial, sans-serif";
@@ -448,11 +742,11 @@ function downloadResultImage() {
 
   ctx.fillStyle = "#6f6b85";
   ctx.font = "800 28px Inter, Arial, sans-serif";
-  ctx.fillText("Vencedor", 190, 340);
+  ctx.fillText(draw.type === "groups" ? "Resultado" : "Vencedor", 190, 340);
 
   ctx.fillStyle = "#17142f";
   ctx.font = "900 84px Inter, Arial, sans-serif";
-  const winnerText = getParticipantDisplay(p);
+  const winnerText = draw.type === "groups" ? `${draw.result.groups.length} grupos` : getParticipantDisplay(p);
   let winnerFont = 84;
   while (ctx.measureText(winnerText).width > cardW - 180 && winnerFont > 46) {
     winnerFont -= 4;
@@ -462,9 +756,13 @@ function downloadResultImage() {
 
   ctx.fillStyle = "#6f6b85";
   ctx.font = "800 30px Inter, Arial, sans-serif";
-  const metaText = draw.type === "numbers"
-    ? `Associado a ${p.name} · ${Sortick.statusLabel(p.status)}`
-    : `${Sortick.typeLabel(draw.type)} · ${Sortick.statusLabel(p.status)}`;
+  const metaText = draw.type === "groups"
+    ? `${draw.result.participantCount} participante(s) distribuído(s)`
+    : draw.type === "bingo"
+      ? `Bingo de 1 a ${getTotalNumbers()} · ${draw.options.bingoAllowRepeats ? "com repetição" : "sem repetição"}`
+      : draw.type === "numbers"
+        ? `Associado a ${p.name} · ${Sortick.statusLabel(p.status)}`
+        : `${Sortick.typeLabel(draw.type)} · ${Sortick.statusLabel(p.status)}`;
   wrapCanvasText(ctx, metaText, 190, 480, cardW - 200, 40);
 
   let y = 620;
@@ -533,7 +831,14 @@ participantForm.addEventListener("submit", event => {
 
 drawButton.addEventListener("click", async () => {
   const eligible = getEligibleParticipants();
-  if (isDrawing || eligible.length < getMinimumParticipants()) return;
+  let canDraw = eligible.length >= getMinimumParticipants();
+
+  if (draw.type === "bingo") {
+    canDraw = draw.options.bingoAllowRepeats || getRemainingBingoNumbers().length > 0;
+  }
+
+  if (isDrawing || !canDraw) return;
+
   isDrawing = true;
   drawButton.disabled = true;
   copyButton.disabled = true;
@@ -541,21 +846,66 @@ drawButton.addEventListener("click", async () => {
   downloadButton.disabled = true;
   setRuleOptionsLocked(true);
   winnerCard.classList.add("hidden");
-  await runCountdown();
-  const winnerIndex = Sortick.secureRandomIndex(eligible.length);
-  const winner = eligible[winnerIndex];
-  const animationResult = await runAnimation(winner, winnerIndex, eligible);
-  draw.result = {
-    participant: winner,
-    participantIndex: winnerIndex,
-    createdAt: new Date().toISOString(),
-    wheelRotation: animationResult.wheelRotation || null,
-    participantCount: eligible.length,
-    rouletteParticipants: draw.type === "roulette" ? eligible.map(participant => ({ ...participant })) : null
-  };
-  if (draw.options.removeWinnerAfterDraw) {
-    draw.participants = draw.participants.filter(participant => participant.id !== winner.id);
+
+  if (typeof window.sortickTrack === "function") {
+    window.sortickTrack("start_draw", {
+      draw_type: draw.type,
+      draw_mode: draw.mode
+    });
   }
+
+  await runCountdown();
+
+  if (draw.type === "bingo") {
+    const number = getNextBingoNumber();
+
+    if (!number) {
+      setValidation("Todos os números já foram sorteados. Ative repetição ou reinicie o bingo.");
+      isDrawing = false;
+      setRuleOptionsLocked(false);
+      render();
+      return;
+    }
+
+    await runBingoAnimation(number);
+
+    draw.options.bingoDrawnNumbers.push(String(number));
+    draw.result = {
+      participant: { id: Sortick.createId("b"), name: `Nº ${number}`, number: String(number), status: "confirmed" },
+      participantIndex: null,
+      createdAt: new Date().toISOString(),
+      participantCount: getTotalNumbers()
+    };
+  } else if (draw.type === "groups") {
+    const groups = generateGroups();
+    animationArea.innerHTML = renderGroupsHTML(groups);
+    playSuccessSound();
+
+    draw.result = {
+      groups,
+      participant: { id: Sortick.createId("g"), name: "Grupos gerados", status: "confirmed" },
+      participantIndex: null,
+      createdAt: new Date().toISOString(),
+      participantCount: draw.participants.length
+    };
+  } else {
+    const winnerIndex = Sortick.secureRandomIndex(eligible.length);
+    const winner = eligible[winnerIndex];
+    const animationResult = await runAnimation(winner, winnerIndex, eligible);
+    draw.result = {
+      participant: winner,
+      participantIndex: winnerIndex,
+      createdAt: new Date().toISOString(),
+      wheelRotation: animationResult.wheelRotation || null,
+      participantCount: eligible.length,
+      rouletteParticipants: draw.type === "roulette" ? eligible.map(participant => ({ ...participant })) : null
+    };
+
+    if (draw.options.removeWinnerAfterDraw) {
+      draw.participants = draw.participants.filter(participant => participant.id !== winner.id);
+    }
+  }
+
   persist();
   isDrawing = false;
   setRuleOptionsLocked(false);
@@ -755,6 +1105,16 @@ removeWinnerToggle.addEventListener("change", () => {
   persist();
 });
 
+
+if (bingoRepeatToggle) {
+  bingoRepeatToggle.addEventListener("change", () => {
+    draw.options.bingoAllowRepeats = bingoRepeatToggle.checked;
+    persist();
+    setValidation(draw.options.bingoAllowRepeats ? "Números repetidos permitidos no próximo sorteio." : "Números repetidos bloqueados no próximo sorteio.");
+    render();
+  });
+}
+
 if (soundToggle) {
   soundToggle.addEventListener("change", () => {
     draw.options.soundEnabled = soundToggle.checked;
@@ -775,6 +1135,9 @@ participantFilter.addEventListener("change", renderParticipants);
 copyButton.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(createProofText());
+    if (typeof window.sortickTrack === "function") {
+      window.sortickTrack("copy_result", { draw_type: draw.type });
+    }
     copyButton.textContent = "Copiado!";
     setTimeout(() => copyButton.textContent = "Copiar resumo", 1400);
   } catch {
@@ -798,6 +1161,9 @@ shareButton.addEventListener("click", async () => {
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       await navigator.clipboard.writeText(shareText);
+      if (typeof window.sortickTrack === "function") {
+        window.sortickTrack("share_result", { draw_type: draw.type, method: "clipboard" });
+      }
       setValidation("Seu navegador não abriu o compartilhamento nativo. O texto foi copiado.");
       return;
     }
@@ -810,6 +1176,9 @@ shareButton.addEventListener("click", async () => {
 });
 
 downloadButton.addEventListener("click", () => {
+  if (typeof window.sortickTrack === "function") {
+    window.sortickTrack("download_result", { draw_type: draw.type });
+  }
   try {
     downloadResultImage();
   } catch {
@@ -817,10 +1186,35 @@ downloadButton.addEventListener("click", () => {
   }
 });
 
-resetButton.addEventListener("click", () => { if (isDrawing) return; draw.result = null; persist(); render(); });
+resetButton.addEventListener("click", () => {
+  if (isDrawing) return;
+
+  if (draw.type === "bingo") {
+    if (!confirm("Reiniciar o bingo e limpar o histórico de números?")) return;
+    draw.options.bingoDrawnNumbers = [];
+  }
+
+  draw.result = null;
+  persist();
+  render();
+});
 clearParticipantsButton.addEventListener("click", () => {
-  if (isDrawing) return; if (!confirm("Limpar todos os participantes deste sorteio?")) return;
-  draw.participants = []; draw.result = null; persist(); render();
+  if (isDrawing) return;
+
+  if (draw.type === "bingo") {
+    if (!confirm("Limpar histórico de números sorteados?")) return;
+    draw.options.bingoDrawnNumbers = [];
+    draw.result = null;
+    persist();
+    render();
+    return;
+  }
+
+  if (!confirm("Limpar todos os participantes deste sorteio?")) return;
+  draw.participants = [];
+  draw.result = null;
+  persist();
+  render();
 });
 
 sampleButton.addEventListener("click", () => {
@@ -830,6 +1224,12 @@ sampleButton.addEventListener("click", () => {
     const numbers = [1, Math.min(7, total), Math.min(12, total), Math.min(27, total)].filter((v, i, a) => a.indexOf(v) === i);
     const names = ["Ana", "Bruno", "Carla", "Diego"];
     draw.participants = numbers.map((number, index) => ({ id: Sortick.createId("p"), name: names[index], number: String(number), status: index % 2 === 0 ? "confirmed" : "pending" }));
+  } else if (draw.type === "groups") {
+    draw.participants = ["Ana", "Bruno", "Carla", "Diego", "Eduardo", "Fernanda"].map(name => ({
+      id: Sortick.createId("p"),
+      name,
+      status: "pending"
+    }));
   } else {
     draw.participants = [
       { name: "Ana", status: "confirmed" }, { name: "Bruno", status: "pending" }, { name: "Carla", status: "confirmed" }, { name: "Diego", status: "pending" }
@@ -840,8 +1240,8 @@ sampleButton.addEventListener("click", () => {
 
 
 bulkButton.addEventListener("click", () => {
-  if (draw.type === "numbers") {
-    setValidation("Adicionar vários está disponível para nomes e roleta nesta versão.");
+  if (draw.type === "numbers" || draw.type === "bingo") {
+    setValidation(draw.type === "bingo" ? "O Bingo não usa lista de participantes." : "Adicionar vários está disponível para nomes, roleta e grupos nesta versão.");
     return;
   }
   bulkAddPanel.classList.toggle("hidden");
@@ -854,7 +1254,7 @@ cancelBulkButton.addEventListener("click", () => {
 });
 
 confirmBulkButton.addEventListener("click", () => {
-  if (draw.type === "numbers") return;
+  if (draw.type === "numbers" || draw.type === "bingo") return;
   const status = participantStatus.value === "confirmed" ? "confirmed" : "pending";
   const names = bulkText.value.split(/\r?\n/).map(Sortick.normalizeText).filter(Boolean);
   if (!names.length) { setValidation("Cole pelo menos um nome."); return; }
@@ -876,8 +1276,8 @@ confirmBulkButton.addEventListener("click", () => {
 
 shuffleButton.addEventListener("click", () => {
   if (isDrawing) return;
-  if (draw.type === "numbers") {
-    setValidation("A cartela de números já fica organizada por número.");
+  if (draw.type === "numbers" || draw.type === "bingo") {
+    setValidation(draw.type === "bingo" ? "O histórico do Bingo já segue a ordem dos números sorteados." : "A cartela de números já fica organizada por número.");
     return;
   }
   draw.participants = Sortick.shuffleArray(draw.participants);

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
   <title>Sortick — Sorteio em andamento</title>
+  <link rel="canonical" href="https://sortick.com.br/sorteio.html" />
   <meta name="description" content="Tela de sorteio do Sortick." />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#6c4dff" />
@@ -129,6 +129,12 @@
             Som ativado
           </label>
 
+
+          <label id="bingoRepeatOption" class="inline-option hidden">
+            <input id="bingoRepeatToggle" type="checkbox" />
+            Permitir números repetidos
+          </label>
+
           <label class="compact-label">
             Mostrar
             <select id="participantFilter">
@@ -160,6 +166,8 @@
 
   <script src="js/utils.js"></script>
   <script src="js/sorteio.js"></script>
+  <script src="js/official-domain.js"></script>
+  <script src="js/analytics.js"></script>
   <script src="js/pwa.js"></script>
 </body>
 </html>

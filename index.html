@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
   <title>Sortick — Sorteios simples e transparentes</title>
+  <link rel="canonical" href="https://sortick.com.br/" />
   <meta name="description" content="Crie sorteios simples, bonitos e transparentes para grupos, salas e comunidades." />
   <link rel="manifest" href="manifest.webmanifest" />
   <meta name="theme-color" content="#6c4dff" />
@@ -91,10 +91,10 @@
           <p>Crie uma cartela, associe números e acompanhe disponíveis e ocupados.</p>
         </article>
 
-        <article class="mode-card muted">
+        <article class="mode-card">
           <div class="icon">🎲</div>
           <h3>Bingo</h3>
-          <p>Planejado para uma versão futura com sala ao vivo.</p>
+          <p>Sorteie números para cartelas físicas, com histórico e opção de repetição.</p>
         </article>
       </div>
     </section>
@@ -119,6 +119,8 @@
               <option value="names">Sorteio por nomes</option>
               <option value="roulette">Roleta</option>
               <option value="numbers">Número da sorte / cartela</option>
+              <option value="bingo">Bingo</option>
+              <option value="groups">Grupos / Times</option>
             </select>
           </label>
 
@@ -126,6 +128,18 @@
             Quantidade de números da cartela
             <input id="totalNumbers" type="number" min="2" max="500" value="50" />
             <span class="field-hint">Exemplo: 50 cria uma cartela de 1 a 50.</span>
+          </label>
+
+          <label id="bingoQuantityField" class="hidden">
+            Números do bingo
+            <input id="bingoTotalNumbers" type="number" min="2" max="500" value="75" />
+            <span class="field-hint">Exemplo: 75 cria um bingo de 1 a 75.</span>
+          </label>
+
+          <label id="groupQuantityField" class="hidden">
+            Quantidade de grupos/times
+            <input id="groupCount" type="number" min="2" max="50" value="2" />
+            <span class="field-hint">Exemplo: 2 divide a lista em dois grupos.</span>
           </label>
 
           <label>
@@ -156,6 +170,8 @@
 
   <script src="js/utils.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/official-domain.js"></script>
+  <script src="js/analytics.js"></script>
   <script src="js/pwa.js"></script>
 </body>
 </html>

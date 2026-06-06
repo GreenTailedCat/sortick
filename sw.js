@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-5-som-3-cache";
+const CACHE_NAME = "sortick-v1-8-1-analytics-cache";
 
 const APP_SHELL = [
   "./",
@@ -19,6 +19,9 @@ const APP_SHELL = [
   "./DEPLOY.md",
   "./CHECKLIST.md",
   "./robots.txt",
+  "./js/official-domain.js",
+  "./js/analytics.js",
+  "./sitemap.xml",
   "./assets/favicon.svg",
   "./assets/logo.svg",
   "./assets/icon.svg",
