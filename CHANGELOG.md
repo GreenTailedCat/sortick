@@ -1,5 +1,10 @@
 # Changelog do Sortick
 
+## v1.8.7-urls-limpas-final
+- Normalização de URLs `.html` reforçada.
+- Links de cabeçalho/âncoras corrigidos.
+- Service worker alterado para network-first em páginas HTML.
+
 ## v1.8.6-corrigir-caminhos
 - Corrigidos caminhos absolutos de CSS/JS/assets após URLs limpas.
 

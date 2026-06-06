@@ -1,4 +1,4 @@
-# Sortick v1.8.6-corrigir-caminhos
+# Sortick v1.8.7-urls-limpas-final
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -80,3 +80,11 @@ E confirme que o domínio está com HTTPS funcionando.
 
 - Corrigidos caminhos de CSS, JavaScript, ícones e manifest em páginas com URLs limpas.
 - Páginas em `/sobre/`, `/termos/`, `/privacidade/`, `/sorteio/` e `/offline/` agora carregam assets pela raiz.
+
+
+## v1.8.7-urls-limpas-final
+
+- Adicionado script global para normalizar URLs antigas `.html`.
+- Corrigidos links de cabeçalho e âncoras para `/`, `/#modos` e `/#criar`.
+- Service worker ajustado para não prender páginas HTML antigas em cache.
+- Redirects `.html` reforçados para URLs limpas.

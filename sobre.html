@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="robots" content="noindex, follow" />
-  <meta http-equiv="refresh" content="0; url=/sobre/" />
   <title>Redirecionando...</title>
-  <script>window.location.replace("/sobre/");</script>
+  <script>
+    window.location.replace("/sobre/" + window.location.search + window.location.hash);
+  </script>
 </head>
 <body>
-  <p>Redirecionando para <a href="/sobre/">/sobre/</a>...</p>
+  <p>Redirecionando...</p>
 </body>
 </html>

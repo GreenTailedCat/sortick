@@ -13,13 +13,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
   <link rel="stylesheet" href="/css/style.css" />
-  <script>
-    (function removeIndexHtmlFromUrl() {
-      if (window.location.pathname.endsWith("/index.html")) {
-        window.history.replaceState(null, "", "/" + window.location.search + window.location.hash);
-      }
-    })();
-  </script>
+  <script src="/js/clean-url.js"></script>
 </head>
 <body>
   <header class="topbar">

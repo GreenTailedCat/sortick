@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="robots" content="noindex, follow" />
-  <meta http-equiv="refresh" content="0; url=/privacidade/" />
   <title>Redirecionando...</title>
-  <script>window.location.replace("/privacidade/");</script>
+  <script>
+    window.location.replace("/privacidade/" + window.location.search + window.location.hash);
+  </script>
 </head>
 <body>
-  <p>Redirecionando para <a href="/privacidade/">/privacidade/</a>...</p>
+  <p>Redirecionando...</p>
 </body>
 </html>
