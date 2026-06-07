@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-9-seo-modos-cache";
+const CACHE_NAME = "sortick-v1-9-1-carrossel-modos-cache";
 
 const APP_SHELL = [
   "/",

@@ -1,5 +1,9 @@
 # Changelog do Sortick
 
+## v1.9.1-carrossel-modos
+- Página inicial: seção de modos alterada para carrossel horizontal com setas.
+- Card Grupos/Times reincluído nos modos disponíveis.
+
 ## v1.9-seo-modos
 - Adicionadas páginas fixas por modo para melhorar SEO e indexação.
 - Sitemap, canonical e cache do PWA atualizados.

@@ -1,4 +1,4 @@
-# Sortick v1.9-seo-modos
+# Sortick v1.9.1-carrossel-modos
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -106,3 +106,10 @@ E confirme que o domínio está com HTTPS funcionando.
 - Sitemap atualizado.
 - Cada página recebeu title, meta description e canonical.
 - Botões das páginas abrem a criação com o tipo de sorteio selecionado.
+
+
+## v1.9.1-carrossel-modos
+
+- Seção “Modos disponíveis” da página inicial transformada em carrossel horizontal.
+- Adicionadas setas laterais para navegar pelos modos.
+- Reincluído o card Grupos/Times na página inicial.

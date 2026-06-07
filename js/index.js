@@ -1,3 +1,25 @@
+const modeCarouselTrack = document.querySelector(".mode-carousel-track");
+const modeCarouselPrev = document.querySelector(".carousel-button-prev");
+const modeCarouselNext = document.querySelector(".carousel-button-next");
+
+function scrollModeCarousel(direction) {
+  if (!modeCarouselTrack) return;
+
+  const firstCard = modeCarouselTrack.querySelector(".mode-card");
+  const amount = firstCard ? firstCard.getBoundingClientRect().width + 18 : 320;
+
+  modeCarouselTrack.scrollBy({
+    left: amount * direction,
+    behavior: "smooth"
+  });
+}
+
+if (modeCarouselPrev && modeCarouselNext) {
+  modeCarouselPrev.addEventListener("click", () => scrollModeCarousel(-1));
+  modeCarouselNext.addEventListener("click", () => scrollModeCarousel(1));
+}
+
+
 const form = document.querySelector("#createForm");
 const titleInput = document.querySelector("#drawTitle");
 const typeInput = document.querySelector("#drawType");

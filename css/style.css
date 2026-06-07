@@ -1418,3 +1418,84 @@ body.drawing-locked #removeWinnerToggle:disabled {
 .mode-more-link { display: inline-flex; margin-top: 12px; font-weight: 900; color: var(--primary); text-decoration: none; }
 .mode-more-link:hover { text-decoration: underline; }
 @media (max-width: 900px) { .seo-feature-list { grid-template-columns: 1fr; } }
+
+
+/* v1.9.1 - carrossel dos modos na página inicial */
+
+.mode-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.mode-carousel-track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  padding: 4px 6px 16px;
+  scrollbar-width: thin;
+}
+
+.mode-carousel-track .mode-card {
+  flex: 0 0 min(268px, 82vw);
+  scroll-snap-align: start;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.carousel-button:hover {
+  transform: translateY(-50%) scale(1.04);
+}
+
+.carousel-button:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.carousel-button-prev {
+  left: -22px;
+}
+
+.carousel-button-next {
+  right: -22px;
+}
+
+@media (max-width: 760px) {
+  .carousel-button {
+    width: 38px;
+    height: 38px;
+    font-size: 1.65rem;
+  }
+
+  .carousel-button-prev {
+    left: 2px;
+  }
+
+  .carousel-button-next {
+    right: 2px;
+  }
+
+  .mode-carousel-track {
+    padding-inline: 42px;
+  }
+}
