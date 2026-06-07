@@ -25,6 +25,19 @@ function syncTypeSettings() {
 typeInput.addEventListener("change", syncTypeSettings);
 syncTypeSettings();
 
+function applyTypeFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get("tipo");
+  const allowedTypes = ["names", "roulette", "numbers", "bingo", "groups"];
+
+  if (type && allowedTypes.includes(type)) {
+    typeInput.value = type;
+    syncTypeSettings();
+  }
+}
+
+applyTypeFromURL();
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 

@@ -1,4 +1,4 @@
-# Sortick v1.8.8-corrigir-logo
+# Sortick v1.9-seo-modos
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -94,3 +94,15 @@ E confirme que o domínio está com HTTPS funcionando.
 
 - Corrigidos caminhos relativos de imagens/logo em páginas com URLs limpas.
 - Logo dentro da página de sorteio agora carrega assets pela raiz do domínio.
+
+
+## v1.9-seo-modos
+- Adicionadas páginas fixas por modo para SEO:
+  - `/sorteio-por-nomes/`
+  - `/roleta/`
+  - `/cartela-de-rifa/`
+  - `/bingo/`
+  - `/grupos/`
+- Sitemap atualizado.
+- Cada página recebeu title, meta description e canonical.
+- Botões das páginas abrem a criação com o tipo de sorteio selecionado.

@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-8-8-corrigir-logo-cache";
+const CACHE_NAME = "sortick-v1-9-seo-modos-cache";
 
 const APP_SHELL = [
   "/",
@@ -7,6 +7,11 @@ const APP_SHELL = [
   "/sobre/",
   "/privacidade/",
   "/termos/",
+  "/sorteio-por-nomes/",
+  "/roleta/",
+  "/cartela-de-rifa/",
+  "/bingo/",
+  "/grupos/",
   "/css/style.css",
   "/js/utils.js",
   "/js/index.js",

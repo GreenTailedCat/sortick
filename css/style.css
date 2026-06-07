@@ -1405,3 +1405,16 @@ body.drawing-locked #removeWinnerToggle:disabled {
 #bingoRepeatOption {
   user-select: none;
 }
+
+
+/* v1.9 - páginas SEO por modo */
+.seo-hero { align-items: center; gap: 36px; }
+.seo-preview-card { min-height: 360px; display: grid; place-items: center; text-align: center; gap: 14px; padding: 34px; }
+.seo-preview-icon { width: 132px; height: 132px; display: grid; place-items: center; border-radius: 36px; background: linear-gradient(135deg, rgba(108, 77, 255, 0.16), rgba(0, 194, 168, 0.18)); font-size: 4.5rem; box-shadow: var(--shadow-soft); }
+.seo-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.seo-feature-list ul { margin: 0; padding-left: 1.25rem; display: grid; gap: 10px; color: var(--muted); line-height: 1.7; }
+.seo-mode-card { color: inherit; text-decoration: none; }
+.seo-mode-card:focus-visible { outline: 3px solid rgba(108, 77, 255, 0.45); outline-offset: 4px; }
+.mode-more-link { display: inline-flex; margin-top: 12px; font-weight: 900; color: var(--primary); text-decoration: none; }
+.mode-more-link:hover { text-decoration: underline; }
+@media (max-width: 900px) { .seo-feature-list { grid-template-columns: 1fr; } }
