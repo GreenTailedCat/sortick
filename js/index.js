@@ -1,6 +1,6 @@
-const modeCarouselTrack = document.querySelector(".mode-carousel-track");
-const modeCarouselPrev = document.querySelector(".carousel-button-prev");
-const modeCarouselNext = document.querySelector(".carousel-button-next");
+const modeCarouselTrack = document.querySelector("#modos .mode-carousel-track");
+const modeCarouselPrev = document.querySelector("#modos .carousel-button-prev");
+const modeCarouselNext = document.querySelector("#modos .carousel-button-next");
 
 function scrollModeCarousel(direction) {
   if (!modeCarouselTrack) return;

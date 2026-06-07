@@ -1,4 +1,4 @@
-# Sortick v1.9.1-carrossel-modos
+# Sortick v1.9.2-corrigir-carrossel
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -113,3 +113,10 @@ E confirme que o domínio está com HTTPS funcionando.
 - Seção “Modos disponíveis” da página inicial transformada em carrossel horizontal.
 - Adicionadas setas laterais para navegar pelos modos.
 - Reincluído o card Grupos/Times na página inicial.
+
+
+## v1.9.2-corrigir-carrossel
+
+- Corrigido carrossel de modos para não quebrar em duas linhas.
+- Adicionado CSS crítico na página inicial para evitar cache antigo do PWA.
+- Adicionado cache busting em CSS/JS da home.

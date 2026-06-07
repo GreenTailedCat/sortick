@@ -1,5 +1,9 @@
 # Changelog do Sortick
 
+## v1.9.2-corrigir-carrossel
+- Corrigido carrossel dos modos na página inicial.
+- Reforçado CSS para impedir quebra em linhas e evitar cache antigo.
+
 ## v1.9.1-carrossel-modos
 - Página inicial: seção de modos alterada para carrossel horizontal com setas.
 - Card Grupos/Times reincluído nos modos disponíveis.
