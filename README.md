@@ -1,4 +1,4 @@
-# Sortick v1.9.2-corrigir-carrossel
+# Sortick v1.10-sorteios-salvos
 
 Versão preparada para abertura pública do domínio `sortick.com.br`.
 
@@ -120,3 +120,10 @@ E confirme que o domínio está com HTTPS funcionando.
 - Corrigido carrossel de modos para não quebrar em duas linhas.
 - Adicionado CSS crítico na página inicial para evitar cache antigo do PWA.
 - Adicionado cache busting em CSS/JS da home.
+
+
+## v1.10-sorteios-salvos
+
+- Adicionado painel “Continuar um sorteio” na página inicial.
+- Sorteios já eram salvos localmente no navegador; agora o usuário consegue visualizar, continuar e excluir sorteios salvos.
+- Salvamento continua local, sem login, sem banco de dados e sem sincronização entre dispositivos.

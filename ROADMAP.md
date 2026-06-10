@@ -40,3 +40,9 @@
 - Bingo ao vivo
 - Histórico de sorteios
 - Android/iOS depois de validação real
+
+
+## Concluído parcialmente
+
+- Sorteios salvos localmente no navegador com painel para continuar/excluir.
+- Salvamento em nuvem permanece como possibilidade futura quando houver contas/login.

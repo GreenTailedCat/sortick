@@ -12,7 +12,7 @@
   <meta name="theme-color" content="#6c4dff" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-  <link rel="stylesheet" href="/css/style.css?v=192" />
+  <link rel="stylesheet" href="/css/style.css?v=110" />
   <script src="/js/clean-url.js"></script>
   <style id="mode-carousel-critical-css">
     #modos .mode-carousel {
@@ -251,6 +251,23 @@
 
           <button class="btn btn-primary full" type="submit">Criar sorteio</button>
         </form>
+
+        <section class="saved-draws-card" aria-labelledby="savedDrawsTitle">
+          <div class="saved-draws-head">
+            <div>
+              <p class="eyebrow">Salvos neste navegador</p>
+              <h3 id="savedDrawsTitle">Continuar um sorteio</h3>
+              <p class="subtle">Os sorteios aparecem apenas neste dispositivo e navegador. Se os dados do navegador forem limpos, eles podem sumir.</p>
+            </div>
+          </div>
+
+          <div id="savedDrawsList" class="saved-draws-list" aria-live="polite">
+            <div class="saved-empty">
+              <strong>Nenhum sorteio salvo ainda</strong>
+              <p>Crie um sorteio para ele aparecer aqui automaticamente.</p>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   </main>
@@ -267,10 +284,10 @@
     </div>
   </footer>
 
-  <script src="/js/utils.js"></script>
-  <script src="/js/index.js?v=192"></script>
+  <script src="/js/utils.js?v=110"></script>
+  <script src="/js/index.js?v=110"></script>
   <script src="/js/official-domain.js"></script>
   <script src="/js/analytics.js"></script>
-  <script src="/js/pwa.js?v=192"></script>
+  <script src="/js/pwa.js?v=110"></script>
 </body>
 </html>

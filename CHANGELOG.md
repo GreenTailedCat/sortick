@@ -1,5 +1,9 @@
 # Changelog do Sortick
 
+## v1.10-sorteios-salvos
+- Adicionado painel para continuar sorteios salvos no navegador.
+- Adicionada opção de excluir sorteios salvos localmente.
+
 ## v1.9.2-corrigir-carrossel
 - Corrigido carrossel dos modos na página inicial.
 - Reforçado CSS para impedir quebra em linhas e evitar cache antigo.

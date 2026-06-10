@@ -1582,3 +1582,132 @@ body.drawing-locked #removeWinnerToggle:disabled {
     right: 2px;
   }
 }
+
+
+/* v1.10 - sorteios salvos no navegador */
+
+.saved-draws-card {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 18px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.saved-draws-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.saved-draws-head h3 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  letter-spacing: -0.035em;
+}
+
+.saved-draws-list {
+  display: grid;
+  gap: 12px;
+  max-height: 370px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.saved-empty {
+  border: 1px dashed var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.saved-empty strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.saved-empty p {
+  margin: 0;
+}
+
+.saved-draw-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff, var(--surface-soft));
+}
+
+.saved-draw-info {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.saved-draw-info strong,
+.saved-draw-info span,
+.saved-draw-info small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.saved-draw-info strong {
+  font-size: 1rem;
+}
+
+.saved-draw-info span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.saved-draw-info small {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+.saved-draw-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.saved-continue {
+  min-height: 42px;
+  padding: 0 16px;
+  font-size: 0.92rem;
+}
+
+.saved-delete {
+  border: 0;
+  background: transparent;
+  color: var(--danger);
+  font-weight: 1000;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.saved-delete:hover {
+  background: rgba(255, 75, 110, 0.10);
+}
+
+@media (max-width: 720px) {
+  .saved-draw-item {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-draw-actions {
+    justify-content: stretch;
+  }
+
+  .saved-continue {
+    flex: 1;
+  }
+}

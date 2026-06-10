@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-9-2-corrigir-carrossel-cache";
+const CACHE_NAME = "sortick-v1-10-sorteios-salvos-cache";
 
 const APP_SHELL = [
   "/",

@@ -31,6 +31,16 @@ const Sortick = (() => {
     return draws[id] || null;
   }
 
+  function deleteDraw(id) {
+    const draws = readDraws();
+
+    if (!draws[id]) return false;
+
+    delete draws[id];
+    writeDraws(draws);
+    return true;
+  }
+
   function updateDraw(id, updater) {
     const draws = readDraws();
     if (!draws[id]) return null;
@@ -117,6 +127,7 @@ const Sortick = (() => {
     readDraws,
     saveDraw,
     getDraw,
+    deleteDraw,
     updateDraw,
     secureRandomIndex,
     shuffleArray,
