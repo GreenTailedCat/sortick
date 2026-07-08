@@ -4,15 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sortick — Sorteios simples e transparentes</title>
-  <link rel="canonical" href="https://sortick.com.br/" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2517804276533396"
-     crossorigin="anonymous"></script>
   <meta name="description" content="Crie sorteios simples, bonitos e transparentes para grupos, salas e comunidades." />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta name="theme-color" content="#6c4dff" />
+  <link rel="canonical" href="https://sortick.com.br/" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-  <link rel="stylesheet" href="/css/style.css?v=110" />
+  <link rel="stylesheet" href="/css/style.css?v=prod1250" />
   <script src="/js/clean-url.js"></script>
   <style id="mode-carousel-critical-css">
     #modos .mode-carousel {
@@ -30,8 +28,15 @@
       overflow-y: hidden;
       scroll-snap-type: x proximity;
       scroll-behavior: smooth;
-      padding: 4px 8px 18px;
-      scrollbar-width: thin;
+      padding: 4px 8px 2px;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    #modos .mode-carousel-track.mode-grid::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
     }
 
     #modos .mode-carousel-track .mode-card {
@@ -95,6 +100,7 @@
       }
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2517804276533396" crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="topbar">
@@ -192,6 +198,13 @@
             <p>Adicione nomes e divida os participantes em grupos aleatórios.</p>
             <a class="mode-more-link" href="/grupos/">Saiba mais</a>
           </article>
+
+          <article class="mode-card">
+            <div class="icon">✦</div>
+            <h3>Decisões rápidas</h3>
+            <p>Use dados, cara ou coroa e números aleatórios em uma atividade visual.</p>
+            <a class="mode-more-link" href="/?tipo=quick#criar">Abrir modo</a>
+          </article>
         </div>
 
         <button class="carousel-button carousel-button-next" type="button" aria-label="Ver próximos modos">›</button>
@@ -202,17 +215,12 @@
       <div class="create-panel">
         <div>
           <p class="eyebrow">Criar agora</p>
-          <h2>Novo sorteio</h2>
-          <p class="subtle">Crie um sorteio em poucos cliques, sem complicação.</p>
+          <h2>Criar um sorteio</h2>
+          <p class="subtle">Escolha um modo e comece em poucos cliques, sem complicação.</p>
         </div>
 
         <form id="createForm" class="form">
-          <label>
-            Nome do sorteio
-            <input id="drawTitle" type="text" placeholder="Ex: Rifa da cesta, sorteio da turma..." maxlength="80" required />
-          </label>
-
-          <label>
+          <label class="draw-type-field">
             Tipo
             <select id="drawType" required>
               <option value="names">Sorteio por nomes</option>
@@ -220,36 +228,268 @@
               <option value="numbers">Número da sorte / cartela</option>
               <option value="bingo">Bingo</option>
               <option value="groups">Grupos / Times</option>
+              <option value="quick">Decisões rápidas</option>
             </select>
           </label>
 
-          <label id="numberQuantityField" class="hidden">
-            Quantidade de números da cartela
-            <input id="totalNumbers" type="number" min="2" max="500" value="50" />
-            <span class="field-hint">Exemplo: 50 cria uma cartela de 1 a 50.</span>
-          </label>
+          <section id="activityCreateWizard" class="cartela-create-wizard activity-create-wizard hidden" aria-label="Criar atividade">
+            <div class="cartela-wizard-progress" aria-label="Etapas da atividade">
+              <span class="is-active" data-activity-step-indicator="1">1. Atividade</span>
+              <span data-activity-step-indicator="2">2. Imagem</span>
+              <span data-activity-step-indicator="3">3. Configurar</span>
+            </div>
 
-          <label id="bingoQuantityField" class="hidden">
-            Números do bingo
-            <input id="bingoTotalNumbers" type="number" min="2" max="500" value="75" />
-            <span class="field-hint">Exemplo: 75 cria um bingo de 1 a 75.</span>
-          </label>
+            <section class="cartela-wizard-step" data-activity-step="1">
+              <p class="eyebrow">ETAPA 1 DE 3</p>
+              <h3>Comece pela atividade</h3>
+              <p class="subtle">Defina um nome, uma descrição opcional e a data. Você poderá editar tudo mais tarde.</p>
 
-          <label id="groupQuantityField" class="hidden">
-            Quantidade de grupos/times
-            <input id="groupCount" type="number" min="2" max="50" value="2" />
-            <span class="field-hint">Exemplo: 2 divide a lista em dois grupos.</span>
-          </label>
+              <label id="drawTitleField">
+                Nome do sorteio
+                <input id="drawTitle" type="text" placeholder="Ex: Ordem das apresentações" maxlength="80" />
+              </label>
 
-          <label>
+              <label>
+                Descrição <span class="optional-inline">Opcional</span>
+                <textarea id="activityDescription" rows="2" maxlength="180" placeholder="Ex: Escolher a ordem de fala do grupo."></textarea>
+              </label>
+
+              <label>
+                Data <span class="optional-inline">Opcional</span>
+                <input id="activityDate" type="date" />
+              </label>
+
+              <div class="cartela-wizard-actions">
+                <button id="activityWizardNext1" class="btn btn-primary" type="button">Continuar</button>
+              </div>
+            </section>
+
+            <section class="cartela-wizard-step hidden" data-activity-step="2">
+              <p class="eyebrow">ETAPA 2 DE 3</p>
+              <h3>Adicionar imagem</h3>
+              <p class="subtle">Opcional. A imagem aparece nos detalhes da atividade e pode ser alterada depois.</p>
+
+              <label class="cartela-image-upload">
+                <span>Imagem da atividade <small>Opcional</small></span>
+                <input id="activityCreateImage" type="file" accept="image/png,image/jpeg,image/webp" />
+                <span class="field-hint">PNG, JPG ou WEBP.</span>
+              </label>
+
+              <div id="activityCreateImagePreview" class="cartela-image-preview hidden">
+                <img id="activityCreateImagePreviewImage" alt="Prévia da imagem da atividade" />
+                <div>
+                  <strong id="activityCreateImageName">Imagem selecionada</strong>
+                  <button id="activityCreateRemoveImage" class="link-button danger-text" type="button">Remover imagem</button>
+                </div>
+              </div>
+
+              <p id="activityCreateImageStatus" class="cartela-image-status" aria-live="polite"></p>
+
+              <div class="cartela-wizard-actions">
+                <button id="activityWizardBack2" class="btn btn-ghost light" type="button">Voltar</button>
+                <button id="activityWizardNext2" class="btn btn-primary" type="button">Continuar</button>
+              </div>
+            </section>
+
+            <section class="cartela-wizard-step hidden" data-activity-step="3">
+              <p class="eyebrow">ETAPA 3 DE 3</p>
+              <h3>Configure o modo</h3>
+              <p class="subtle">Escolha as opções específicas da atividade antes de criar.</p>
+
+              <div id="activityModeConfigArea" class="activity-mode-config-area">
+                <label id="bingoQuantityField" class="hidden">
+                  Números do bingo
+                  <input id="bingoTotalNumbers" type="number" min="2" max="500" value="75" />
+                  <span class="field-hint">Exemplo: 75 cria um bingo de 1 a 75.</span>
+                </label>
+
+                <label id="groupQuantityField" class="hidden">
+                  Quantidade de grupos/times
+                  <input id="groupCount" type="number" min="2" max="50" value="2" />
+                  <span class="field-hint">Exemplo: 2 divide a lista em dois grupos.</span>
+                </label>
+
+                <section id="selectionCreationField" class="simple-create-options hidden" aria-label="Opções de sorteio">
+                  <p class="eyebrow">RESULTADO</p>
+                  <label>
+                    Formato
+                    <select id="selectionModeInput">
+                      <option value="single">Um sorteado</option>
+                      <option value="multiple">Vários sorteados</option>
+                      <option value="order">Ordem completa</option>
+                    </select>
+                  </label>
+                  <label id="selectionCountField" class="hidden">
+                    Quantos sorteados
+                    <input id="selectionCountInput" type="number" min="2" max="100" value="2" />
+                  </label>
+                  <label class="inline-option">
+                    <input id="noRepeatInput" type="checkbox" />
+                    Não repetir sorteados nesta rodada
+                  </label>
+                </section>
+
+                <section id="groupNamesCreationField" class="simple-create-options hidden" aria-label="Nomes dos grupos">
+                  <p class="eyebrow">NOMES DOS GRUPOS</p>
+                  <label>
+                    Personalizar grupos <span class="optional-inline">Opcional</span>
+                    <textarea id="groupNamesInput" rows="3" maxlength="240" placeholder="Um por linha ou separados por vírgula&#10;Ex: Grupo Azul, Grupo Verde, Grupo Amarelo"></textarea>
+                    <span class="field-hint">Quando não preencher, o Sortick usa Grupo 1, Grupo 2 e assim por diante.</span>
+                  </label>
+                </section>
+
+                <label>
+                  Observação <span class="optional-inline">Opcional</span>
+                  <textarea id="activityNote" rows="3" maxlength="180" placeholder="Ex: Atividade será realizada no início do encontro."></textarea>
+                </label>
+
+                <div class="cartela-wizard-actions">
+                  <button id="activityWizardBack3" class="btn btn-ghost light" type="button">Voltar</button>
+                  <button id="createSubmitButton" class="btn btn-primary" type="submit">Criar atividade</button>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section id="quickCreationField" class="simple-create-options hidden quick-create-direct" aria-label="Decisões rápidas">
+            <p class="eyebrow">DECISÃO RÁPIDA</p>
+            <label>
+              Tipo
+              <select id="quickTypeInput">
+                <option value="coin">Cara ou coroa</option>
+                <option value="dice">Dado</option>
+                <option value="random">Número aleatório</option>
+              </select>
+            </label>
+
+            <div id="quickDiceField" class="quick-dice-intro hidden">
+              <strong>Mesa de dados</strong>
+              <span>Abra a mesa e escolha D4, D6, D8, D10, D12 ou D20 diretamente nela.</span>
+            </div>
+
+            <select id="quickDiceSidesInput" class="hidden" aria-hidden="true" tabindex="-1"><option value="6" selected>D6</option></select>
+
+            <div id="quickRandomFields" class="quick-random-row hidden">
+              <label>
+                Mínimo
+                <input id="quickMinInput" type="number" value="1" min="-999999" max="999999" />
+              </label>
+              <label>
+                Máximo
+                <input id="quickMaxInput" type="number" value="100" min="-999999" max="999999" />
+              </label>
+              <label class="inline-option quick-random-repeat-option">
+                <input id="quickRandomRepeatInput" type="checkbox" checked />
+                Permitir números repetidos
+              </label>
+            </div>
+            <button id="quickCreateSubmitButton" class="btn btn-primary full" type="submit">Abrir decisão</button>
+          </section>
+
+          <label id="drawModeField" class="hidden">
             Modo
-            <select id="drawMode" required>
-              <option value="simple">Simples — dono adiciona e sorteia</option>
-              <option value="live" disabled>Ao vivo — em breve</option>
-            </select>
+            <select id="drawMode"><option value="simple">Simples</option></select>
           </label>
 
-          <button class="btn btn-primary full" type="submit">Criar sorteio</button>
+          <section id="cartelaCreateWizard" class="cartela-create-wizard hidden" aria-label="Criar cartela">
+            <div class="cartela-wizard-progress" aria-label="Etapas de criação">
+              <span class="is-active" data-cartela-step-indicator="1">1. Cartela</span>
+              <span data-cartela-step-indicator="2">2. Prêmio</span>
+              <span data-cartela-step-indicator="3">3. Opcionais</span>
+            </div>
+
+            <section class="cartela-wizard-step" data-cartela-step="1">
+              <p class="eyebrow">Etapa 1 de 3</p>
+              <h3>Comece pela cartela</h3>
+              <p class="subtle">Defina como a cartela será identificada e quantos números ela terá.</p>
+
+              <label>
+                Nome da cartela
+                <input id="cartelaCreateTitle" type="text" maxlength="80" placeholder="Ex: Rifa da cesta" autocomplete="off" />
+              </label>
+
+              <label>
+                Descrição <span class="optional-inline">Opcional</span>
+                <textarea id="cartelaCreateDescription" rows="2" maxlength="180" placeholder="Ex: Atividade para o grupo ou evento."></textarea>
+              </label>
+
+              <div class="cartela-wizard-row">
+                <label>
+                  Quantidade de números
+                  <input id="cartelaCreateTotal" type="number" min="2" max="500" value="100" />
+                  <span class="field-hint">Essa quantidade fica definida após criar a cartela.</span>
+                </label>
+                <label>
+                  Data do sorteio <span class="optional-inline">Opcional</span>
+                  <input id="cartelaCreateDate" type="date" />
+                </label>
+              </div>
+
+              <div class="cartela-wizard-actions">
+                <button id="cartelaWizardNext1" class="btn btn-primary" type="button">Continuar</button>
+              </div>
+            </section>
+
+            <section class="cartela-wizard-step hidden" data-cartela-step="2">
+              <p class="eyebrow">Etapa 2 de 3</p>
+              <h3>Qual é o prêmio?</h3>
+              <p class="subtle">Adicione um ou mais prêmios. A imagem de destaque aparece na cartela e na exportação.</p>
+
+              <section class="cartela-prize-section" aria-label="Prêmios">
+                <div class="cartela-prize-section-heading">
+                  <div>
+                    <h4>Prêmios</h4>
+                    <p class="field-hint">Adicione até 10 prêmios. Um prêmio único sai da lista após ser sorteado; um repetível pode sair mais de uma vez.</p>
+                  </div>
+                </div>
+                <div id="cartelaCreatePrizeList" class="cartela-prize-list"></div>
+                <button id="cartelaCreateAddPrize" class="btn btn-ghost light cartela-add-prize" type="button">Adicionar prêmio</button>
+              </section>
+
+              <label class="cartela-image-upload">
+                <span>Imagem de destaque <small>Opcional</small></span>
+                <input id="cartelaCreateImage" type="file" accept="image/png,image/jpeg,image/webp" />
+                <span class="field-hint">PNG, JPG ou WEBP.</span>
+              </label>
+
+              <div id="cartelaCreateImagePreview" class="cartela-image-preview hidden">
+                <img id="cartelaCreateImagePreviewImage" alt="Prévia da imagem do prêmio" />
+                <div>
+                  <strong id="cartelaCreateImageName">Imagem selecionada</strong>
+                  <button id="cartelaCreateRemoveImage" class="link-button danger-text" type="button">Remover imagem</button>
+                </div>
+              </div>
+
+              <p id="cartelaCreateImageStatus" class="cartela-image-status" aria-live="polite"></p>
+
+              <div class="cartela-wizard-actions">
+                <button id="cartelaWizardBack2" class="btn btn-ghost light" type="button">Voltar</button>
+                <button id="cartelaWizardNext2" class="btn btn-primary" type="button">Continuar</button>
+              </div>
+            </section>
+
+            <section class="cartela-wizard-step hidden" data-cartela-step="3">
+              <p class="eyebrow">Etapa 3 de 3</p>
+              <h3>Detalhes opcionais</h3>
+              <p class="subtle">Essas informações podem ser alteradas depois.</p>
+
+              <label>
+                Valor por número <span class="optional-inline">Opcional</span>
+                <input id="cartelaCreateValue" type="text" maxlength="30" placeholder="Ex: R$ 5,00" />
+              </label>
+
+              <label>
+                Condição ou observação
+                <textarea id="cartelaCreateNote" rows="3" maxlength="180" placeholder="Ex: Sorteio quando todos os números forem ocupados."></textarea>
+              </label>
+
+              <div class="cartela-wizard-actions">
+                <button id="cartelaWizardBack3" class="btn btn-ghost light" type="button">Voltar</button>
+                <button id="cartelaWizardCreate" class="btn btn-primary" type="button">Criar cartela</button>
+              </div>
+            </section>
+          </section>
+
         </form>
 
         <section class="saved-draws-card" aria-labelledby="savedDrawsTitle">
@@ -264,7 +504,7 @@
           <div id="savedDrawsList" class="saved-draws-list" aria-live="polite">
             <div class="saved-empty">
               <strong>Nenhum sorteio salvo ainda</strong>
-              <p>Crie um sorteio para ele aparecer aqui automaticamente.</p>
+              <p>Quando você criar um sorteio, ele ficará salvo automaticamente neste navegador.</p>
             </div>
           </div>
         </section>
@@ -277,17 +517,20 @@
       Sortick é uma ferramenta de organização e transparência. Não vende bilhetes, não processa pagamentos e não administra premiações.
     </p>
     <div class="footer-links">
+      <a href="/como-funciona/">Como funciona</a>
+      <a href="/ideias-de-uso/">Ideias de uso</a>
+      <a href="/perguntas-frequentes/">Perguntas frequentes</a>
       <a href="/sobre/">Sobre</a>
       <a href="/privacidade/">Privacidade</a>
       <a href="/termos/">Termos</a>
-      <a href="mailto:contato.sortick@gmail.com?subject=Erro%20no%20Sortick&body=Ol%C3%A1%2C%20encontrei%20um%20erro%20no%20Sortick.%0A%0ADescreva%20o%20erro%3A%0A%0A%0AModo%20usado%3A%0A%28%20%29%20Nomes%0A%28%20%29%20Roleta%0A%28%20%29%20N%C3%BAmero%20da%20sorte/cartela%0A%28%20%29%20Outro%0A%0AO%20que%20voc%C3%AA%20esperava%20que%20acontecesse%3A%0A%0A%0AO%20que%20aconteceu%3A%0A%0A%0ANavegador/dispositivo%3A%0A">Reportar erro</a>
+      <a href="mailto:contato.sortick@gmail.com?subject=Erro%20ou%20sugest%C3%A3o%20%E2%80%94%20Sortick&body=Ol%C3%A1%2C%20quero%20enviar%20um%20erro%20ou%20uma%20sugest%C3%A3o%20sobre%20o%20Sortick.%0A%0ATipo%20de%20mensagem%3A%0A%28%20%29%20Encontrei%20um%20erro%0A%28%20%29%20Tenho%20uma%20sugest%C3%A3o%0A%0ADescreva%3A%0A%0A%0AModo%20usado%2C%20se%20houver%3A%0A%28%20%29%20Nomes%0A%28%20%29%20Roleta%0A%28%20%29%20N%C3%BAmero%20da%20sorte/cartela%0A%28%20%29%20Bingo%0A%28%20%29%20Grupos/Times%0A%28%20%29%20Outro%0A%0ANavegador/dispositivo%3A%0A">Erro/sugestões?</a>
     </div>
   </footer>
 
-  <script src="/js/utils.js?v=110"></script>
-  <script src="/js/index.js?v=110"></script>
-  <script src="/js/official-domain.js"></script>
-  <script src="/js/analytics.js"></script>
-  <script src="/js/pwa.js?v=110"></script>
+  <script src="/js/utils.js?v=prod1250"></script>
+  <script src="/js/index.js?v=prod1250"></script>
+  <script src="/js/official-domain.js?v=prod1250"></script>
+  <script src="/js/analytics.js?v=prod1250"></script>
+  <script src="/js/pwa.js?v=prod1250"></script>
 </body>
 </html>

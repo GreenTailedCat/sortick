@@ -4,15 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sortick — Sorteio em andamento</title>
-  <link rel="canonical" href="https://sortick.com.br/sorteio/" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2517804276533396"
-     crossorigin="anonymous"></script>
   <meta name="description" content="Tela de sorteio do Sortick." />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta name="theme-color" content="#6c4dff" />
+  <link rel="canonical" href="https://sortick.com.br/sorteio/" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css?v=prod1250" />
   <script src="/js/clean-url.js"></script>
 </head>
 <body class="draw-page">
@@ -64,12 +62,13 @@
         <button id="copyButton" class="btn btn-ghost" disabled>Copiar resumo</button>
         <button id="shareButton" class="btn btn-ghost" disabled>Compartilhar</button>
         <button id="downloadButton" class="btn btn-ghost" disabled>Baixar imagem</button>
-        <button id="resetButton" class="btn btn-danger" type="button">Novo sorteio nesta lista</button>
+        <button id="resetButton" class="btn btn-secondary hidden" type="button">Reiniciar bingo</button>
       </div>
+      <p id="resetHint" class="stage-action-hint hidden">Reinicia o histórico de números do bingo.</p>
     </section>
 
     <aside class="side-panel">
-      <div class="panel-card">
+      <div id="participantPanel" class="panel-card">
         <h2>Participantes</h2>
         <p id="participantHelp" class="subtle">Adicione nomes para o sorteio.</p>
 
@@ -92,8 +91,10 @@
         <div id="bulkAddPanel" class="bulk-panel hidden">
           <label class="compact-label">
             Adicionar vários
-            <textarea id="bulkText" rows="6" placeholder="Um nome por linha&#10;Ex:&#10;Ana&#10;Bruno&#10;Carla"></textarea>
+            <textarea id="bulkText" rows="6" placeholder="Um nome por linha ou separados por vírgula&#10;Ex:&#10;Ana&#10;Bruno, Carla&#10;Diego"></textarea>
           </label>
+          <p id="bulkHint" class="bulk-hint">Use uma linha para cada nome ou separe nomes por vírgula.</p>
+          <p id="bulkPreview" class="bulk-preview" aria-live="polite">Nenhum nome informado.</p>
           <div class="bulk-actions">
             <button id="confirmBulkButton" class="btn btn-secondary" type="button">Adicionar lista</button>
             <button id="cancelBulkButton" class="btn btn-ghost light" type="button">Cancelar</button>
@@ -138,6 +139,50 @@
             Permitir números repetidos
           </label>
 
+          <section id="selectionOptionsPanel" class="simple-core-panel hidden">
+            <h3>Formato do resultado</h3>
+
+            <label class="compact-label">
+              Resultado
+              <select id="selectionModeControl">
+                <option value="single">Um sorteado</option>
+                <option value="multiple">Vários sorteados</option>
+                <option value="order">Ordem completa</option>
+              </select>
+            </label>
+
+            <label id="selectionCountControlField" class="compact-label hidden">
+              Quantos sorteados
+              <input id="selectionCountControl" type="number" min="2" max="100" value="2" />
+            </label>
+
+            <label class="inline-option">
+              <input id="noRepeatToggle" type="checkbox" />
+              Não repetir sorteados nesta rodada
+            </label>
+
+            <button id="resetRoundButton" class="link-button danger-text hidden" type="button">Reiniciar rodada</button>
+          </section>
+
+          <section id="groupSettingsPanel" class="simple-core-panel hidden">
+            <h3>Grupos</h3>
+            <label class="compact-label">
+              Nomes dos grupos
+              <textarea id="groupNamesControl" rows="3" maxlength="240" placeholder="Um por linha ou separados por vírgula"></textarea>
+            </label>
+            <button id="saveGroupNamesButton" class="btn btn-ghost light" type="button">Salvar nomes dos grupos</button>
+          </section>
+
+          <section id="quickSettingsPanel" class="simple-core-panel hidden">
+            <h3>Decisão rápida</h3>
+            <p id="quickSettingsText" class="subtle">Pronto para decidir.</p>
+            <label id="randomRepeatOption" class="inline-option hidden">
+              <input id="randomRepeatToggle" type="checkbox" checked />
+              Permitir números repetidos
+            </label>
+          </section>
+
+
           <label class="compact-label">
             Mostrar
             <select id="participantFilter">
@@ -158,6 +203,8 @@
         <ol id="participantList" class="participant-list"></ol>
       </div>
 
+      <div id="activityInfoPanel" class="panel-card small-card activity-info-panel"></div>
+
       <div class="panel-card small-card">
         <h3>Transparência</h3>
         <p>
@@ -167,10 +214,11 @@
     </aside>
   </main>
 
-  <script src="/js/utils.js"></script>
-  <script src="/js/sorteio.js"></script>
-  <script src="/js/official-domain.js"></script>
-  <script src="/js/analytics.js"></script>
-  <script src="/js/pwa.js"></script>
+  <script src="/js/utils.js?v=prod1250"></script>
+  <script src="/js/sorteio.js?v=prod1250"></script>
+  <script src="/js/dice-direct.js?v=prod1250"></script>
+  <script src="/js/official-domain.js?v=prod1250"></script>
+  <script src="/js/analytics.js?v=prod1250"></script>
+  <script src="/js/pwa.js?v=prod1250"></script>
 </body>
 </html>

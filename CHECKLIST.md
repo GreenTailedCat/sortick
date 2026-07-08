@@ -1,61 +1,60 @@
-# Checklist de teste do Sortick
+# Checklist final v1.15
 
-## Página inicial
-- [ ] Logo aparece no topo.
-- [ ] Botão "Criar sorteio" funciona.
-- [ ] Links do menu funcionam.
-- [ ] Rodapé mostra Sobre, Privacidade, Termos e Reportar erro.
+- [ ] Carrossel sem barra horizontal e com setas funcionais.
+- [ ] Formulário de detalhes aparece em Nomes, Roleta, Bingo, Grupos e Decisões rápidas.
+- [ ] Detalhes podem ser editados na tela do sorteio.
+- [ ] Cartela aceita até 10 prêmios.
+- [ ] Prêmio único não reaparece após sorteio; repetível permanece disponível.
+- [ ] Dados permitem até 10 peças, mostram resultado individual e total.
+- [ ] D4, D6, D8, D10, D12 e D20 têm silhuetas distintas.
+- [ ] Número aleatório sem repetição bloqueia valores já usados.
+- [ ] Bingo mostra números únicos e porcentagem.
+- [ ] Testar celular e computador antes de gerar a cópia de produção.
 
-## Sorteio por nomes
-- [ ] Criar sorteio por nomes.
-- [ ] Adicionar participante manualmente.
-- [ ] Adicionar vários nomes.
-- [ ] Embaralhar lista.
-- [ ] Alternar Confirmado/Pendente.
-- [ ] Sortear normalmente.
-- [ ] Sortear apenas confirmados.
-- [ ] Remover vencedor após sortear.
-- [ ] Baixar imagem.
-- [ ] Compartilhar.
-- [ ] Copiar resumo.
 
-## Roleta
-- [ ] Criar roleta.
-- [ ] Adicionar 2 participantes.
-- [ ] Adicionar 10+ participantes.
-- [ ] Conferir se a roleta para no mesmo vencedor mostrado no resultado.
-- [ ] Testar Sortear apenas confirmados.
-- [ ] Testar Remover vencedor após sortear.
-- [ ] Verificar se a roleta não muda o resultado após remover vencedor.
+## Teste final v1.16
 
-## Cartela de números
-- [ ] Criar cartela com 50 números.
-- [ ] Clicar em número disponível.
-- [ ] Associar nome ao número.
-- [ ] Conferir se número ocupado fica vermelho.
-- [ ] Clicar em número ocupado para alternar Confirmado/Pendente.
-- [ ] Testar Sortear apenas confirmados.
-- [ ] Testar Remover vencedor após sortear.
-- [ ] Conferir se número removido volta a ficar disponível.
+- [ ] Nomes, Roleta, Bingo e Grupos mostram as três etapas de criação.
+- [ ] Em cada um desses modos, imagem pode ser adicionada e editada depois.
+- [ ] Cartela mantém as etapas e prêmios existentes.
+- [ ] Decisões rápidas não mostram formulário de atividade.
+- [ ] Dado abre diretamente na mesa de dados, sem mensagem de participantes.
+- [ ] D4, D6, D8, D10, D12 e D20 podem ser adicionados; limite de 10.
+- [ ] Rolar mostra valor dentro de cada dado e total com dois ou mais.
+- [ ] Limpar remove todos os dados.
+- [ ] Cara ou coroa e número aleatório continuam funcionando.
 
-## Páginas extras
-- [ ] sobre.html abre.
-- [ ] privacidade.html abre.
-- [ ] termos.html abre.
-- [ ] offline.html abre.
-- [ ] Links do rodapé funcionam.
-- [ ] Reportar erro abre e-mail.
 
-## Mobile
-- [ ] Página inicial não quebra.
-- [ ] Botões não ficam cortados.
-- [ ] Roleta fica circular.
-- [ ] Cartela é clicável.
-- [ ] Compartilhar abre menu nativo ou copia texto.
+## v1.17 — correção de criação e modo Dado
 
-## PWA / GitHub Pages
-- [ ] Favicon aparece.
-- [ ] Manifest é reconhecido.
-- [ ] Service worker registra.
-- [ ] Site abre pelo link do GitHub Pages.
-- [ ] App pode ser instalado/adicionado à tela inicial quando disponível.
+- Formulário de Nomes, Roleta, Bingo e Grupos usa a mesma estrutura visual de 3 etapas da cartela.
+- Corrigidos botões Continuar, imagem e observação desses modos.
+- Decisões rápidas continuam diretas, sem formulário de atividade.
+- Dado não usa nem exibe participantes.
+
+
+## v1.18 — teste de Dados
+
+- [ ] Escolher Decisões rápidas > Dado não mostra seletor de dado inicial.
+- [ ] Ao abrir Dado, a área mostra imediatamente a mesa “Jogar os dados”.
+- [ ] Nenhuma mensagem ou painel de participantes aparece.
+- [ ] A mesa começa vazia.
+- [ ] Adicionar D4, D6 e D20 funciona.
+- [ ] Rolar mostra resultado em cada dado e total.
+- [ ] Limpar volta a deixar a mesa vazia.
+
+
+## v1.19 — mesa de dados isolada
+- Adicionado controlador independente para o modo Dado, sem lógica de participantes e sem depender do código legado de decisões rápidas.
+
+
+## Teste v1.20 — moeda e dados
+
+- [ ] Cara ou coroa usa som diferente dos demais modos.
+- [ ] O som de giro da moeda para ao revelar o resultado.
+- [ ] Resultado da moeda mostra 😄 ou 👑.
+- [ ] D4, D6, D8, D10, D12 e D20 aparecem como SVG 2.5D.
+- [ ] Botões inferiores mostram +D4, +D6, +D8, +D10, +D12, +D20.
+- [ ] Total soma corretamente.
+- [ ] Limite de 10 dados continua funcionando.
+- [ ] A mesa não quebra no celular.

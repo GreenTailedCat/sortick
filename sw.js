@@ -1,4 +1,4 @@
-const CACHE_NAME = "sortick-v1-10-sorteios-salvos-cache";
+const CACHE_NAME = "sortick-v1-25-producao-cache";
 
 const APP_SHELL = [
   "/",
@@ -12,10 +12,14 @@ const APP_SHELL = [
   "/cartela-de-rifa/",
   "/bingo/",
   "/grupos/",
+  "/como-funciona/",
+  "/ideias-de-uso/",
+  "/perguntas-frequentes/",
   "/css/style.css",
   "/js/utils.js",
   "/js/index.js",
   "/js/sorteio.js",
+  "/js/dice-direct.js",
   "/js/pwa.js",
   "/js/official-domain.js",
   "/js/analytics.js",
@@ -23,6 +27,7 @@ const APP_SHELL = [
   "/manifest.webmanifest",
   "/robots.txt",
   "/sitemap.xml",
+  "/ads.txt",
   "/assets/favicon.svg",
   "/assets/logo.svg",
   "/assets/icon.svg",

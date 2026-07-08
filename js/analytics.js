@@ -1,34 +1,25 @@
-// Sortick Analytics
-// Para ativar o Google Analytics 4, troque o valor abaixo pelo ID de medição.
-// Exemplo: const SORTICK_GA_ID = "G-XXXXXXXXXX";
-const SORTICK_GA_ID = "G-9D20N8TF1J";
+// Sortick production analytics bridge.
+// Para ativar GA4, substitua o valor abaixo pelo Measurement ID real, por exemplo: G-XXXXXXXXXX.
+const SORTICK_GA_MEASUREMENT_ID = "G-9D20N8TF1J";
 
-(function setupSortickAnalytics() {
-  if (!SORTICK_GA_ID) {
-    window.sortickTrack = function noopSortickTrack() {};
+window.dataLayer = window.dataLayer || [];
+function gtag(){ window.dataLayer.push(arguments); }
+
+(function initSortickAnalytics() {
+  if (!SORTICK_GA_MEASUREMENT_ID) {
+    window.sortickTrack = function sortickTrack() {};
     return;
   }
 
   const script = document.createElement("script");
   script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${SORTICK_GA_ID}`;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${SORTICK_GA_MEASUREMENT_ID}`;
   document.head.appendChild(script);
 
-  window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-    window.dataLayer.push(arguments);
-  }
-
-  window.gtag = gtag;
   gtag("js", new Date());
-  gtag("config", SORTICK_GA_ID, { anonymize_ip: true });
+  gtag("config", SORTICK_GA_MEASUREMENT_ID);
 
   window.sortickTrack = function sortickTrack(eventName, params = {}) {
-    try {
-      gtag("event", eventName, params);
-    } catch {
-      // Mantém o Sortick funcionando mesmo se o Analytics falhar.
-    }
+    gtag("event", eventName, params);
   };
 })();
