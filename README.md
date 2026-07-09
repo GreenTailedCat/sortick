@@ -28,3 +28,8 @@ GA4 Measurement ID configurado:
 ```text
 G-9D20N8TF1J
 ```
+
+## Noindex aplicado
+
+- `/sorteio/`: `noindex, follow`
+- `/offline/`: `noindex, nofollow`
