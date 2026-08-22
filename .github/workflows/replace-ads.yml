@@ -1,0 +1,48 @@
+name: Replace AdSense with Adcash
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  replace-ads:
+    if: ${{ !contains(github.event.head_commit.message, '[skip-adcash-replacement]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace Google AdSense with Adcash Autotag
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+          old = '  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2517804276533396" crossorigin="anonymous"></script>'
+          new = '''  <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+          <script type="text/javascript">
+              aclib.runAutoTag({
+                  zoneId: 'dy5znlrchq',
+              });
+          </script>'''
+          if old not in text:
+              raise SystemExit('Expected Google AdSense script was not found; refusing to modify index.html.')
+          if 'aclib.runAutoTag' in text:
+              raise SystemExit('Adcash Autotag is already present; refusing to modify index.html.')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Commit changes and remove temporary workflow
+        shell: bash
+        run: |
+          rm -f .github/workflows/replace-ads.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html .github/workflows/replace-ads.yml
+          git diff --cached --quiet && exit 0
+          git commit -m 'Substituir AdSense por Adcash [skip-adcash-replacement]'
+          git push
